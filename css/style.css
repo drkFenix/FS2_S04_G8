@@ -1,0 +1,220 @@
+/* Variables de colores y fuentes! */
+:root {
+    --bg-principal: #F7F7F7;
+    --color-acento-verde: #2E8B57;
+    --color-acento-amarillo: #FFD700;
+    --color-acento-marron: #8B4513;
+    --texto-principal: #333333;
+    --texto-secundario: #666666;
+    
+    --fuente-general: 'Montserrat', sans-serif;
+    --fuente-titulos: 'Playfair Display', serif;
+}
+
+/* Estilos globales y reseteo! */
+body {
+    background-color: var(--bg-principal);
+    color: var(--texto-principal);
+    font-family: var(--fuente-general);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--fuente-titulos);
+    color: var(--color-acento-marron);
+}
+
+p {
+    color: var(--texto-secundario);
+}
+
+/* Encabezado y Navegación! */
+header {
+    background-color: #fff;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--color-acento-verde);
+}
+
+header .logo h1 {
+    margin: 0;
+    color: var(--color-acento-verde);
+}
+
+header .logo p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--texto-principal);
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--color-acento-verde);
+}
+
+/* Contenido Principal! */
+main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* Categorías y Catálogo! */
+.categoria-seccion {
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.categoria-seccion h3 {
+    border-bottom: 2px solid var(--color-acento-amarillo);
+    padding-bottom: 0.5rem;
+    margin-top: 0;
+}
+
+.desc-categoria {
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.producto {
+    background: #fafafa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #eaeaea;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.producto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.producto h4 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: var(--color-acento-verde);
+}
+
+.producto .precio {
+    color: var(--texto-principal);
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.producto .stock {
+    font-size: 0.85rem;
+    color: var(--color-acento-marron);
+    margin: 0;
+}
+
+.producto .descripcion {
+    font-size: 0.9rem;
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+}
+
+button {
+    background-color: var(--color-acento-verde);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: var(--fuente-general);
+    font-weight: 600;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+button:hover {
+    background-color: #246d44;
+}
+
+/* Formulario de Registro! */
+.formulario-seccion {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.form-group input {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: var(--fuente-general);
+}
+
+.error-msg {
+    color: #d9534f;
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+    min-height: 1.2em;
+}
+
+/* Footer! */
+footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--color-acento-marron);
+    color: #fff;
+    margin-top: 3rem;
+}
+
+footer p {
+    color: #f7f7f7;
+    margin: 0.5rem 0;
+}

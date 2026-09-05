@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - HuertoHogar</title>
+    <!-- Google Fonts! -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Encabezado! -->
+    <header>
+        <div class="logo">
+            <h1>HuertoHogar</h1>
+            <p>Del campo al hogar</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="login.html">Iniciar Sesión</a></li>
+                <li><a href="registro.html">Registro</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="formulario-seccion">
+            <h2>Iniciar Sesión</h2>
+            <!-- Formulario de login! -->
+            <form id="loginForm" novalidate>
+                <div class="form-group">
+                    <label for="loginEmail">Correo Electrónico:</label>
+                    <input type="email" id="loginEmail" name="loginEmail" required placeholder="ejemplo@correo.com">
+                    <span class="error-msg" id="errorLoginEmail"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña:</label>
+                    <input type="password" id="loginPassword" name="loginPassword" required placeholder="Tu contraseña">
+                    <span class="error-msg" id="errorLoginPassword"></span>
+                </div>
+
+                <button type="submit" class="btn-submit">Ingresar</button>
+                <p style="text-align: center; margin-top: 1.5rem;">¿No tienes cuenta? <a href="registro.html" style="color: var(--color-acento-verde); font-weight: bold;">Regístrate aquí</a></p>
+            </form>
+
+            <!-- Datos de prueba para el usuario! -->
+            <div style="margin-top: 2rem; padding: 1rem; background-color: #e9f5ef; border-radius: 8px; border-left: 4px solid var(--color-acento-verde);">
+                <p style="margin: 0; font-size: 0.9rem;">
+                    <strong>Usuario de prueba:</strong><br>
+                    Email: <em>prueba@huertohogar.cl</em><br>
+                    Contraseña: <em>secreto123</em>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página! -->
+    <footer>
+        <p>&copy; 2024 HuertoHogar. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
