@@ -2,9 +2,8 @@
 
 | Integrante | Rol / Responsabilidad | Tareas Asignadas dentro del Proyecto |
 | :--- | :--- | :--- |
-| **[Nombre Integrante 1]** | Desarrollador Frontend | Estructura semántica HTML5 de `index.html`. Separación y creación de las vistas de categorías de productos. |
-| **[Nombre Integrante 2]** | Desarrollador UI/CSS | Diseño de la interfaz, implementación de `style.css`, aplicación de paleta de colores corporativa y tipografías. |
-| **[Nombre Integrante 3]** | Desarrollador Lógico (JS) | Implementación de validaciones de formularios (Registro y Login) en `script.js` y flujos de éxito. |
-| **[Nombre Integrante 4]** | Gestión y Documentación | Control de versiones en Git/GitHub, redacción de ERS y Planilla de Requerimientos. Preparación de la entrega. |
+| **Camilo Perez** | Desarrollador Frontend (Catálogos) | Creación, estructura e integración de las 4 vistas de categorías de productos (Frutas Frescas, Verduras Orgánicas, Productos Orgánicos y Lácteos). |
+| **Bryan Rodriguez** | Desarrollador Frontend (Página Principal) | Diseño, estructura semántica de la página principal (`index.html`), navegación general del sitio y aplicación de la hoja de estilos base. |
+| **Hugo Pinto** | Desarrollador Lógico y Formularios | Implementación de las vistas de usuario (`login.html`, `registro.html`, `exito.html`) y desarrollo de las validaciones de formularios en JavaScript. |
 
-*(Nota: Si son menos integrantes en tu grupo, simplemente agrupa los roles, por ejemplo asignando "Frontend y CSS" a una sola persona).*
+*(Nota: Todos los integrantes colaboraron en la redacción de la documentación ERS y en el uso del repositorio GitHub).*
