@@ -2,6 +2,8 @@ import React from 'react';
 import './index.css'; // Tu CSS global
 import { Container, Row, Col } from 'react-bootstrap'
 import ProductCard from './components/ProductCard'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 function App() {
   const productosFrutas = [
@@ -12,22 +14,7 @@ function App() {
 
   return (
     <>
-      <header className="bg-white py-3 px-4 border-bottom shadow-sm d-flex justify-content-between align-items-center">
-        <div className="logo d-flex align-items-center gap-3">
-          <img src="/assets/logo.png" alt="Logo HuertoHogar" style={{ height: '50px' }} />
-          <div>
-            <h1 className="m-0 fs-4 text-success">HuertoHogar</h1>
-            <p className="m-0 text-muted small">Del campo al hogar</p>
-          </div>
-        </div>
-        <nav>
-          <ul className="nav gap-3 list-unstyled m-0">
-            <li><a href="/" className="text-dark text-decoration-none fw-semibold">Inicio</a></li>
-            <li><a href="/login" className="text-dark text-decoration-none fw-semibold">Iniciar Sesión</a></li>
-            <li><a href="/registro" className="text-dark text-decoration-none fw-semibold">Registro</a></li>
-          </ul>
-        </nav>
-      </header>
+      <Navbar />
 
       <main className="container my-5">
         <section className="hero text-center p-5 bg-white rounded shadow-sm mb-5">
@@ -53,9 +40,7 @@ function App() {
         </section>
       </main>
 
-      <footer className="text-white text-center py-4 mt-5" style={{ backgroundColor: '#8B4513' }}>
-        <p className="m-0">&copy; 2024 HuertoHogar. Todos los derechos reservados.</p>
-      </footer>
+      <Footer />
     </>
   )
 }
