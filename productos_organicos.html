@@ -35,7 +35,12 @@
                     <p class="precio">$5,000 CLP por frasco de 500g</p>
                     <p class="stock">Stock: 50 frascos</p>
                     <p class="descripcion">Miel pura y org&aacute;nica producida por apicultores locales. Rica en antioxidantes y con un sabor inigualable, perfecta para endulzar de manera natural tus comidas y bebidas.</p>
-                    <button>Agregar al carrito</button>
+                    <div class="cantidad-container" style="margin-bottom: 1rem;">
+    <label style="font-weight: bold; color: var(--color-acento-verde);">Cantidad: 
+        <input type="number" class="input-cantidad" value="1" min="1" style="width: 60px; padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px;">
+    </label>
+</div>
+<button class="btn-agregar" onclick="agregarAlCarrito(this)">Agregar al carrito</button>
                 </article>
                 <article class="producto">
                     <img src="assets/quinua.png" alt="Quinua Org&aacute;nica">
@@ -43,7 +48,12 @@
                     <p class="precio">$3,000 CLP por kilo</p>
                     <p class="stock">Stock: 100 kilos</p>
                     <p class="descripcion">Quinua cultivada de manera sostenible. Superalimento rico en prote&iacute;nas y amino&aacute;cidos, ideal para guarniciones y ensaladas saludables.</p>
-                    <button>Agregar al carrito</button>
+                    <div class="cantidad-container" style="margin-bottom: 1rem;">
+    <label style="font-weight: bold; color: var(--color-acento-verde);">Cantidad: 
+        <input type="number" class="input-cantidad" value="1" min="1" style="width: 60px; padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px;">
+    </label>
+</div>
+<button class="btn-agregar" onclick="agregarAlCarrito(this)">Agregar al carrito</button>
                 </article>
             </div>
             <button onclick="window.location.href='index.html'" style="margin-top:2rem; width:auto;">Volver a Categor&iacute;as</button>

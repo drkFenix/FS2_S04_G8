@@ -23,40 +23,55 @@
                 <li><a href="registro.html">Registro</a></li>
             </ul>
         </nav>
-    </header>
-    <main>
-        <section class="categoria-seccion">
-            <h2>Verduras Org&aacute;nicas</h2>
-            <p class="desc-categoria">Descubre nuestra gama de verduras org&aacute;nicas, cultivadas sin el uso de pesticidas ni qu&iacute;micos, garantizando un sabor aut&eacute;ntico y natural. Cada verdura es seleccionada por su calidad y valor nutricional, ofreciendo una excelente fuente de vitaminas, minerales y fibra. Ideales para ensaladas, guisos y platos saludables, nuestras verduras org&aacute;nicas promueven una alimentaci&oacute;n consciente y sostenible.</p>
-            <div class="productos-grid">
-                <article class="producto">
-                    <img src="assets/zanahorias.jpg" alt="Zanahorias Org&aacute;nicas">
-                    <h4>Zanahorias Org&aacute;nicas</h4>
-                    <p class="precio">$900 CLP por kilo</p>
-                    <p class="stock">Stock: 100 kilos</p>
-                    <p class="descripcion">Zanahorias crujientes cultivadas sin pesticidas en la Regi&oacute;n de O'Higgins. Excelente fuente de vitamina A y fibra, ideales para ensaladas, jugos o como snack saludable.</p>
-                    <button>Agregar al carrito</button>
-                </article>
-                <article class="producto">
-                    <img src="assets/espinacas.jpg" alt="Espinacas Frescas">
-                    <h4>Espinacas Frescas</h4>
-                    <p class="precio">$700 CLP por bolsa de 500g</p>
-                    <p class="stock">Stock: 80 bolsas</p>
-                    <p class="descripcion">Espinacas frescas y nutritivas, perfectas para ensaladas y batidos verdes. Estas espinacas son cultivadas bajo pr&aacute;cticas org&aacute;nicas que garantizan su calidad y valor nutricional.</p>
-                    <button>Agregar al carrito</button>
-                </article>
-                <article class="producto">
-                    <img src="assets/pimientos.jpg" alt="Pimientos Tricolores">
-                    <h4>Pimientos Tricolores</h4>
-                    <p class="precio">$1,500 CLP por kilo</p>
-                    <p class="stock">Stock: 120 kilos</p>
-                    <p class="descripcion">Pimientos rojos, amarillos y verdes, ideales para salteados y platos coloridos. Ricos en antioxidantes y vitaminas, estos pimientos a&ntilde;aden un toque vibrante y saludable a cualquier receta.</p>
-                    <button>Agregar al carrito</button>
-                </article>
-            </div>
-            <button onclick="window.location.href='index.html'" style="margin-top:2rem; width:auto;">Volver a Categor&iacute;as</button>
-        </section>
-    </main>
+        </header>
+        <main>
+            <section class="categoria-seccion">
+                <h2>Verduras Org&aacute;nicas</h2>
+                <p class="desc-categoria">Descubre nuestra gama de verduras org&aacute;nicas, cultivadas sin el uso de pesticidas ni qu&iacute;micos, garantizando un sabor aut&eacute;ntico y natural. Cada verdura es seleccionada por su calidad y valor nutricional, ofreciendo una excelente fuente de vitaminas, minerales y fibra. Ideales para ensaladas, guisos y platos saludables, nuestras verduras org&aacute;nicas promueven una alimentaci&oacute;n consciente y sostenible.</p>
+                <div class="productos-grid">
+                    <article class="producto">
+                        <img src="assets/zanahorias.jpg" alt="Zanahorias Org&aacute;nicas">
+                        <h4>Zanahorias Org&aacute;nicas</h4>
+                        <p class="precio">$900 CLP por kilo</p>
+                        <p class="stock">Stock: 100 kilos</p>
+                        <p class="descripcion">Zanahorias crujientes cultivadas sin pesticidas en la Regi&oacute;n de O'Higgins. Excelente fuente de vitamina A y fibra, ideales para ensaladas, jugos o como snack saludable.</p>
+                        <div class="cantidad-container" style="margin-bottom: 1rem;">
+    <label style="font-weight: bold; color: var(--color-acento-verde);">Cantidad: 
+        <input type="number" class="input-cantidad" value="1" min="1" style="width: 60px; padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px;">
+    </label>
+</div>
+<button class="btn-agregar" onclick="agregarAlCarrito(this)">Agregar al carrito</button>
+                    </article>
+                    <article class="producto">
+                        <img src="assets/espinacas.jpg" alt="Espinacas Frescas">
+                        <h4>Espinacas Frescas</h4>
+                        <p class="precio">$700 CLP por bolsa de 500g</p>
+                        <p class="stock">Stock: 80 bolsas</p>
+                        <p class="descripcion">Espinacas frescas y nutritivas, perfectas para ensaladas y batidos verdes. Estas espinacas son cultivadas bajo pr&aacute;cticas org&aacute;nicas que garantizan su calidad y valor nutricional.</p>
+                        <div class="cantidad-container" style="margin-bottom: 1rem;">
+    <label style="font-weight: bold; color: var(--color-acento-verde);">Cantidad: 
+        <input type="number" class="input-cantidad" value="1" min="1" style="width: 60px; padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px;">
+    </label>
+</div>
+<button class="btn-agregar" onclick="agregarAlCarrito(this)">Agregar al carrito</button>
+                    </article>
+                    <article class="producto">
+                        <img src="assets/pimientos.jpg" alt="Pimientos Tricolores">
+                        <h4>Pimientos Tricolores</h4>
+                        <p class="precio">$1,500 CLP por kilo</p>
+                        <p class="stock">Stock: 120 kilos</p>
+                        <p class="descripcion">Pimientos rojos, amarillos y verdes, ideales para salteados y platos coloridos. Ricos en antioxidantes y vitaminas, estos pimientos a&ntilde;aden un toque vibrante y saludable a cualquier receta.</p>
+                        <div class="cantidad-container" style="margin-bottom: 1rem;">
+    <label style="font-weight: bold; color: var(--color-acento-verde);">Cantidad: 
+        <input type="number" class="input-cantidad" value="1" min="1" style="width: 60px; padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px;">
+    </label>
+</div>
+<button class="btn-agregar" onclick="agregarAlCarrito(this)">Agregar al carrito</button>
+                    </article>
+                </div>
+                <button onclick="window.location.href='index.html'" style="margin-top:2rem; width:auto;">Volver a Categor&iacute;as</button>
+            </section>
+        </main>
     <footer>
         <p>&copy; 2024 HuertoHogar. Todos los derechos reservados.</p>
     </footer>

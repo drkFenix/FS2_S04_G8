@@ -64,3 +64,34 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+function agregarAlCarrito(boton) {
+    // Buscar el contenedor del producto
+    const producto = boton.closest('.producto');
+    
+    // Obtener el valor del input de cantidad
+    const inputCantidad = producto.querySelector('.input-cantidad');
+    const cantidad = parseInt(inputCantidad.value);
+    
+    // Obtener el texto del stock y extraer solo el número
+    const textoStock = producto.querySelector('.stock').innerText;
+    // Busca números dentro del texto del stock (ej: "Stock: 150 kilos" -> 150)
+    const match = textoStock.match(/\d+/);
+    const stockDisponible = match ? parseInt(match[0]) : 0;
+    
+    const nombreProducto = producto.querySelector('h4').innerText;
+
+    // Validación 1: Mayor a 0
+    if (isNaN(cantidad) || cantidad <= 0) {
+        alert("⚠️ Por favor, ingresa una cantidad válida mayor a 0 para " + nombreProducto + ".");
+        return;
+    }
+    
+    // Validación 2: No superar el stock
+    if (cantidad > stockDisponible) {
+        alert("❌ Lo sentimos, solo tenemos " + stockDisponible + " unidades disponibles de " + nombreProducto + ".");
+        return;
+    }
+    
+    // Éxito
+    alert("✅ ¡Agregaste " + cantidad + " unidades de " + nombreProducto + " al carrito exitosamente!");
+}

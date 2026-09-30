@@ -35,7 +35,12 @@
                     <p class="precio">$1,200 CLP por litro</p>
                     <p class="stock">Stock: 100 litros</p>
                     <p class="descripcion">Leche entera natural proveniente de vacas alimentadas con pasto en praderas del sur de Chile.</p>
-                    <button>Agregar al carrito</button>
+                    <div class="cantidad-container" style="margin-bottom: 1rem;">
+    <label style="font-weight: bold; color: var(--color-acento-verde);">Cantidad: 
+        <input type="number" class="input-cantidad" value="1" min="1" style="width: 60px; padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px;">
+    </label>
+</div>
+<button class="btn-agregar" onclick="agregarAlCarrito(this)">Agregar al carrito</button>
                 </article>
             </div>
             <button onclick="window.location.href='index.html'" style="margin-top:2rem; width:auto;">Volver a Categor&iacute;as</button>

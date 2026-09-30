@@ -35,7 +35,12 @@
                     <p class="precio">$1,200 CLP por kilo</p>
                     <p class="stock">Stock: 150 kilos</p>
                     <p class="descripcion">Manzanas Fuji crujientes y dulces, cultivadas en el Valle del Maule. Perfectas para meriendas saludables o como ingrediente en postres. Estas manzanas son conocidas por su textura firme y su sabor equilibrado entre dulce y &aacute;cido.</p>
-                    <button>Agregar al carrito</button>
+                    <div class="cantidad-container" style="margin-bottom: 1rem;">
+    <label style="font-weight: bold; color: var(--color-acento-verde);">Cantidad: 
+        <input type="number" class="input-cantidad" value="1" min="1" style="width: 60px; padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px;">
+    </label>
+</div>
+<button class="btn-agregar" onclick="agregarAlCarrito(this)">Agregar al carrito</button>
                 </article>
                 <article class="producto">
                     <img src="assets/naranjas.png" alt="Naranjas Valencia">
@@ -43,7 +48,12 @@
                     <p class="precio">$1,000 CLP por kilo</p>
                     <p class="stock">Stock: 200 kilos</p>
                     <p class="descripcion">Jugosas y ricas en vitamina C, estas naranjas Valencia son ideales para zumos frescos y refrescantes. Cultivadas en condiciones clim&aacute;ticas &oacute;ptimas que aseguran su dulzura y jugosidad.</p>
-                    <button>Agregar al carrito</button>
+                    <div class="cantidad-container" style="margin-bottom: 1rem;">
+    <label style="font-weight: bold; color: var(--color-acento-verde);">Cantidad: 
+        <input type="number" class="input-cantidad" value="1" min="1" style="width: 60px; padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px;">
+    </label>
+</div>
+<button class="btn-agregar" onclick="agregarAlCarrito(this)">Agregar al carrito</button>
                 </article>
                 <article class="producto">
                     <img src="assets/platanos.png" alt="Pl&aacute;tanos Cavendish">
@@ -51,7 +61,12 @@
                     <p class="precio">$800 CLP por kilo</p>
                     <p class="stock">Stock: 250 kilos</p>
                     <p class="descripcion">Pl&aacute;tanos maduros y dulces, perfectos para el desayuno o como snack energ&eacute;tico. Estos pl&aacute;tanos son ricos en potasio y vitaminas, ideales para mantener una dieta equilibrada.</p>
-                    <button>Agregar al carrito</button>
+                    <div class="cantidad-container" style="margin-bottom: 1rem;">
+    <label style="font-weight: bold; color: var(--color-acento-verde);">Cantidad: 
+        <input type="number" class="input-cantidad" value="1" min="1" style="width: 60px; padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px;">
+    </label>
+</div>
+<button class="btn-agregar" onclick="agregarAlCarrito(this)">Agregar al carrito</button>
                 </article>
             </div>
             <button onclick="window.location.href='index.html'" style="margin-top:2rem; width:auto;">Volver a Categor&iacute;as</button>
