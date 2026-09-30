@@ -4,8 +4,16 @@ import { Container, Row, Col } from 'react-bootstrap'
 import ProductCard from './components/ProductCard'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import { useState } from 'react'
 
 function App() {
+  // Estado para llevar la cuenta de los productos en el carrito
+  const [carritoCount, setCarritoCount] = useState(0)
+
+  const manejarAgregarCarrito = () => {
+    setCarritoCount(carritoCount + 1)
+  }
+
   const productosFrutas = [
     { id: 1, nombre: 'Manzanas Fuji', precio: '1,200 CLP', stock: '150 kilos', descripcion: 'Manzanas Fuji crujientes y dulces del Valle del Maule.', imagen: '/assets/manzanas.jpg' },
     { id: 2, nombre: 'Naranjas Valencia', precio: '1,000 CLP', stock: '200 kilos', descripcion: 'Jugosas y ricas en vitamina C, ideales para zumos frescos.', imagen: '/assets/naranjas.png' },
@@ -14,7 +22,7 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      <Navbar cartCount={carritoCount} />
 
       <main className="container my-5">
         <section className="hero text-center p-5 bg-white rounded shadow-sm mb-5">
@@ -33,6 +41,7 @@ function App() {
                   stock={producto.stock}
                   descripcion={producto.descripcion}
                   imagen={producto.imagen}
+                  onAgregar={manejarAgregarCarrito}
                 />
               </Col>
             ))}
