@@ -1,57 +1,63 @@
 import React from 'react';
-import './index.css'; // Tu CSS global
-import { Container, Row, Col } from 'react-bootstrap'
-import ProductCard from './components/ProductCard'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { CartProvider } from './context/CartContext';
+import NavigationBar from './components/Navbar';
+import Footer from './components/Footer';
+
+// Páginas de la Tienda
+import Home from './pages/Home';
+import Categorias from './pages/Categorias';
+import Ofertas from './pages/Ofertas';
+import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import SuccessPurchase from './pages/SuccessPurchase';
+import FailedPurchase from './pages/FailedPurchase';
+import Nosotros from './pages/Nosotros';
+import Blog from './pages/Blog';
+import Contacto from './pages/Contacto';
+import Login from './pages/Login';
+import Register from './pages/Register';
+
+// Páginas de Administración
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminOrders from './pages/admin/AdminOrders';
 
 function App() {
-  // Estado para llevar la cuenta de los productos en el carrito
-  const [carritoCount, setCarritoCount] = useState(0)
-
-  const manejarAgregarCarrito = () => {
-    setCarritoCount(carritoCount + 1)
-  }
-
-  const productosFrutas = [
-    { id: 1, nombre: 'Manzanas Fuji', precio: '1,200 CLP', stock: '150 kilos', descripcion: 'Manzanas Fuji crujientes y dulces del Valle del Maule.', imagen: '/assets/manzanas.jpg' },
-    { id: 2, nombre: 'Naranjas Valencia', precio: '1,000 CLP', stock: '200 kilos', descripcion: 'Jugosas y ricas en vitamina C, ideales para zumos frescos.', imagen: '/assets/naranjas.png' },
-    { id: 3, nombre: 'Plátanos Cavendish', precio: '800 CLP', stock: '250 kilos', descripcion: 'Plátanos maduros y dulces, perfectos para el desayuno.', imagen: '/assets/platanos.png' }
-  ]
-
   return (
-    <>
-      <Navbar cartCount={carritoCount} />
+    <CartProvider>
+      <BrowserRouter>
+        <div className="d-flex flex-column min-vh-100 bg-light">
+          <NavigationBar />
+          <main className="flex-grow-1">
+            <Routes>
+              {/* Rutas de la Tienda */}
+              <Route path="/" element={<Home />} />
+              <Route path="/categorias" element={<Categorias />} />
+              <Route path="/ofertas" element={<Ofertas />} />
+              <Route path="/producto/:id" element={<ProductDetail />} />
+              <Route path="/carrito" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/compra-exitosa" element={<SuccessPurchase />} />
+              <Route path="/compra-fallida" element={<FailedPurchase />} />
+              <Route path="/nosotros" element={<Nosotros />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/contacto" element={<Contacto />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/registro" element={<Register />} />
 
-      <main className="container my-5">
-        <section className="hero text-center p-5 bg-white rounded shadow-sm mb-5">
-          <h2>Descubre la frescura del campo</h2>
-          <p className="text-muted">Conéctate con la naturaleza y lleva lo mejor del campo a tu mesa.</p>
-        </section>
-
-        <section className="catalogo">
-          <h2 className="mb-4 text-secondary">Frutas Frescas</h2>
-          <Row className="g-4">
-            {productosFrutas.map((producto) => (
-              <Col key={producto.id} xs={12} md={6} lg={4}>
-                <ProductCard 
-                  nombre={producto.nombre}
-                  precio={producto.precio}
-                  stock={producto.stock}
-                  descripcion={producto.descripcion}
-                  imagen={producto.imagen}
-                  onAgregar={manejarAgregarCarrito}
-                />
-              </Col>
-            ))}
-          </Row>
-        </section>
-      </main>
-
-      <Footer />
-    </>
-  )
+              {/* Rutas del Sistema Administrativo */}
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/productos" element={<AdminProducts />} />
+              <Route path="/admin/ordenes" element={<AdminOrders />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </CartProvider>
+  );
 }
 
-export default App
+export default App;
