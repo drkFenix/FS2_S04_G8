@@ -1,99 +1,99 @@
 # Especificación de Requerimientos de Software (ERS) - V2
-## Proyecto: HuertoHogar - Plataforma Web E-commerce en React
-### Evaluación 2 (30%) - Duoc UC | Escuela de Informática y Telecomunicaciones
+
+**Proyecto:** HuertoHogar - Plataforma Web E-commerce en React  
+**Evaluación:** Evaluación 2 (30%) - Duoc UC | Escuela de Informática y Telecomunicaciones  
 **Grupo 8:**
-- Camilo Perez (Catálogo de Productos y Ofertas)
-- Bryan Rodriguez (Página Principal, Enrutamiento y Navegación)
-- Hugo Pinto (Carrito de Compras, Checkout y Validaciones)
+- Camilo Pérez
+- Bryan Rodríguez
+- Hugo Pinto
 
 ---
 
-## 1. Introducción y Propósito
-El presente documento describe la segunda iteración y actualización de la Especificación de Requerimientos de Software (ERS V2) para la plataforma web **HuertoHogar**. En esta fase, la aplicación migró completamente desde páginas HTML/CSS estáticas a una **Single Page Application (SPA) moderna desarrollada con React y Vite**, incorporando persistencia en el cliente, operaciones CRUD, flujo completo de compras (carrito y checkout), panel de administración e implementación de pruebas unitarias automatizadas.
+## 1. Introducción y Alcance
+Este documento corresponde a la segunda entrega de la Especificación de Requerimientos de Software para la plataforma web **HuertoHogar**. En esta etapa, el proyecto evolucionó desde maquetación estática en HTML/CSS a una **Single Page Application (SPA) desarrollada en React con Vite**, incorporando navegación mediante rutas dinámicas, estado global para el carrito de compras, persistencia en el cliente con `localStorage`, catálogo administrable con operaciones CRUD, control de stock crítico y batería de pruebas unitarias.
 
 ---
 
-## 2. Arquitectura y Tecnologías
-- **Librería Principal:** React 19 (Hooks: `useState`, `useEffect`, `useContext`, `useParams`, `useNavigate`).
-- **Empaquetador y Servidor Local:** Vite 8.
-- **Enrutamiento:** `react-router-dom` v7 (navegación SPA sin recarga de página).
-- **Framework de Estilos:** Bootstrap 5 y `react-bootstrap` (diseño 100% responsivo para móviles, tablets y escritorios).
-- **Persistencia de Datos:** `localStorage` mediante capa de datos simulada en JavaScript (`src/data/db.js`).
-- **Entorno de Pruebas:** Vitest + React Testing Library + Jest-DOM (compatible con Jasmine API).
+## 2. Tecnologías y Arquitectura
+- **Frontend:** React 19 (uso de hooks: `useState`, `useEffect`, `useContext`, `useParams`, `useNavigate`).
+- **Empaquetador y Build Tool:** Vite.
+- **Navegación:** `react-router-dom` (arquitectura SPA sin recarga de página).
+- **Estilos e Interfaz:** Bootstrap 5, `react-bootstrap` y Bootstrap Icons (diseño responsivo).
+- **Capa de Datos:** `localStorage` mediante módulo JavaScript (`src/data/db.js`).
+- **Testing:** Vitest, React Testing Library y Jest-DOM.
 
 ---
 
 ## 3. Requerimientos Funcionales (RF)
 
 ### 3.1 Módulo Tienda Pública (Cliente)
-- **RF-01 [Página de Inicio / Home]:**
-  - Despliegue de banner hero con propuesta de valor de HuertoHogar.
-  - Buscador dinámico de productos en tiempo real por nombre o categoría.
-  - Sección de tarjetas de categorías destacadas (Frutas, Verduras, Orgánicos, Lácteos).
-  - Carrusel o grilla de ofertas imperdibles y catálogo general.
+- **RF-01 [Página Principal / Home]:**
+  - Banner hero con mensaje de marca y propuesta de valor.
+  - Buscador de productos en tiempo real por nombre o categoría.
+  - Acceso directo a categorías destacadas (Frutas, Verduras, Orgánicos, Lácteos).
+  - Bloque de productos en oferta y catálogo general.
 
 - **RF-02 [Catálogo y Filtro por Categorías]:**
-  - Vista dedicada que permite filtrar productos por: "Todas", "Frutas Frescas", "Verduras Orgánicas", "Productos Orgánicos" y "Productos Lácteos".
-  - Sincronización con la URL mediante parámetros de búsqueda (`?cat=`).
+  - Vista dedicada (`/categorias`) con filtrado por: "Todas", "Frutas Frescas", "Verduras Orgánicas", "Productos Orgánicos" y "Productos Lácteos".
+  - Sincronización de la categoría activa mediante query params en la URL (`?cat=`).
 
-- **RF-03 [Módulo de Ofertas y Descuentos]:**
-  - Vista exclusiva (`/ofertas`) que filtra y muestra únicamente productos con descuento activo.
-  - Presentación del precio normal tachado, el precio rebajado en color distintivo y badge `"🔥 OFERTA"`.
+- **RF-03 [Módulo de Ofertas]:**
+  - Vista exclusiva (`/ofertas`) que lista productos con descuento activo.
+  - Despliegue de precio normal, precio rebajado y badge de oferta.
 
 - **RF-04 [Detalle de Producto]:**
-  - Vista individual accesible vía `/producto/:id`.
-  - Muestra imagen ampliada, categoría, stock en tiempo real, descripción nutricional/origen y selector de cantidad con validación de límite de stock.
+  - Vista de producto accesible mediante ruta dinámica `/producto/:id`.
+  - Muestra imagen, categoría, precio, stock disponible, descripción y selector de cantidad respetando el límite de inventario.
 
-- **RF-05 [Carrito de Compras Persistente]:**
-  - Tabla interactiva con columnas: Imagen, Nombre, Precio, Cantidad (con controles `+` y `-`), Subtotal y botón de eliminación.
-  - Almacenamiento sincronizado en `localStorage` (los productos no se pierden al recargar).
-  - Opción de vaciar el carrito completo.
-  - Botón de navegación al paso de Checkout.
+- **RF-05 [Carrito de Compras]:**
+  - Tabla de productos agregados con imagen, nombre, precio unitario, selector de cantidad (+ / -), subtotal y opción de eliminar artículo.
+  - Persistencia de los datos en `localStorage` al recargar la página.
+  - Opción de vaciar el carrito completo y botón de redirección al Checkout.
 
-- **RF-06 [Checkout y Datos de Entrega]:**
-  - Formulario estructurado según la propuesta de interfaz:
-    - *Información del cliente:* Nombre, Apellidos, Correo electrónico.
-    - *Dirección de entrega:* Calle y número, Departamento (opcional), Región de Chile y Comuna asociada, Indicaciones de entrega.
-  - Control de prueba para simular pago exitoso o pago fallido (evaluación docente).
+- **RF-06 [Checkout y Formulario de Entrega]:**
+  - Formulario con campos de validación:
+    - *Datos personales:* Nombre, Apellidos, Correo electrónico.
+    - *Dirección:* Calle y número, Departamento/Casa, Región de Chile y Comuna asociada (con filtrado dinámico según la región), Indicaciones de entrega.
+  - Selector de modo sandbox para simular respuestas de pago aprobadas o rechazadas.
 
-- **RF-07 [Pantallas de Confirmación de Pago]:**
-  - **Pago Correcto (`/compra-exitosa`):** Generación de número de orden aleatorio de 8 dígitos (ej: `#20240705`), resumen detallado del comprador, dirección y desglose de productos. Opciones de imprimir boleta y enviar por correo.
-  - **Pago con Error (`/compra-fallida`):** Mensaje de alerta de rechazo de transacción bancaria con botón destacado `"VOLVER A REALIZAR EL PAGO"` conservando los datos de la orden.
+- **RF-07 [Confirmación de Pago]:**
+  - **Pago Aprobado (`/compra-exitosa`):** Generación de número de orden, resumen del comprador, dirección de entrega, detalle de productos adquiridos y opción de imprimir boleta.
+  - **Pago Rechazado (`/compra-fallida`):** Aviso de transacción no procesada con opción de reintentar el pago conservando los datos de la compra.
 
-- **RF-08 [Vistas Complementarias]:**
-  - Vista Nosotros (`/nosotros`): Misión, pilares de comercio justo y apoyo a agricultores.
-  - Vista Blog (`/blog`): Artículos sobre vida sana con modal de lectura completa.
-  - Vista Contacto (`/contacto`): Formulario de atención al cliente.
-  - Vistas de Login y Registro (`/login`, `/registro`): Formularios con validación en React.
+- **RF-08 [Vistas Informativas e Interacción]:**
+  - Vista Nosotros (`/nosotros`): Misión, pilares y origen de los productos.
+  - Vista Blog (`/blog`): Artículos sobre vida sana con modal de lectura.
+  - Vista Contacto (`/contacto`): Formulario de consultas con confirmación de envío.
+  - Vistas de Login y Registro (`/login`, `/registro`): Formularios con validación en cliente.
 
 ---
 
-### 3.2 Módulo Panel de Administración (Admin)
+## 3.2 Módulo Panel de Administración (Admin)
 - **RF-09 [Dashboard de Métricas]:**
-  - Tarjetas de resumen en tiempo real: Total de ventas en pesos chilenos ($ CLP), Cantidad de productos en catálogo, Clientes frecuentes y alerta de stock crítico.
-  - Cuadrícula de accesos directos a los módulos del sistema.
+  - Indicadores clave en tiempo real: Total de ventas en pesos chilenos ($ CLP), cantidad de productos en catálogo, clientes frecuentes y alerta de stock crítico.
+  - Accesos directos a los módulos de inventario, órdenes y catálogo.
 
-- **RF-10 [CRUD de Productos con Persistencia]:**
-  - **Create:** Modal para añadir un nuevo producto indicando nombre, categoría, precio, stock, unidad de medida, imagen y opción de oferta.
-  - **Read:** Tabla de administración con buscador y switch para filtrar exclusivamente artículos con **Stock Crítico** (≤ 50 unidades).
-  - **Update:** Edición completa de datos de cualquier producto existente en el modal.
-  - **Delete:** Eliminación de productos con confirmación de seguridad.
+- **RF-10 [CRUD de Productos]:**
+  - **Crear:** Modal para añadir nuevo producto con nombre, categoría, precio, stock, unidad de medida, imagen y descuento opcional.
+  - **Leer:** Tabla con buscador y filtro para identificar artículos con Stock Crítico (≤ 50 unidades).
+  - **Actualizar:** Edición completa de datos de cualquier producto desde modal.
+  - **Eliminar:** Baja de producto con confirmación de usuario.
 
-- **RF-11 [Gestión de Órdenes y Boletas]:**
-  - Historial de todas las compras generadas desde el Checkout.
-  - Modal con visor de **Boleta Electrónica** oficial de HuertoHogar SpA, con opción de impresión.
+- **RF-11 [Historial de Órdenes y Boletas]:**
+  - Registro de compras procesadas en la plataforma.
+  - Modal con visor de boleta electrónica con detalle tributario y botón de impresión.
 
 ---
 
 ## 4. Requerimientos No Funcionales (RNF)
-- **RNF-01 [Diseño Responsivo con Bootstrap]:** Interfaz adaptable a pantallas móviles (< 768px), tablets y monitores de escritorio.
-- **RNF-02 [Principio de Responsabilidad Única (SRP)]:** Cada componente de React (`ProductCard`, `Navbar`, `Footer`, etc.) gestiona únicamente su función específica.
-- **RNF-03 [Persistencia en Cliente]:** El catálogo, las órdenes y el carrito persisten en `localStorage` sin depender de un servidor backend externo en esta etapa.
-- **RNF-04 [Cobertura de Pruebas Unitarias]:** Verificación automatizada de renderizado, renderizado condicional, props, state y eventos con Vitest y React Testing Library.
+- **RNF-01 [Diseño Responsivo]:** Interfaz adaptada a dispositivos móviles, tablets y pantallas de escritorio mediante Bootstrap 5.
+- **RNF-02 [Componentización y Modularidad]:** Separación de componentes reutilizables (`Navbar`, `Footer`, `ProductCard`) y vistas desacopladas.
+- **RNF-03 [Persistencia en Cliente]:** Persistencia de catálogo, órdenes y carrito en el navegador utilizando la API de `localStorage`.
+- **RNF-04 [Pruebas Automatizadas]:** Suite de pruebas unitarias implementada con Vitest y React Testing Library para validar renderizado, props, estado y eventos.
 
 ---
 
-## 5. Diagrama de Navegación del Sistema
+## 5. Estructura de Navegación
 
 ```
                          [ HUERTOHOGAR SPA ]
@@ -102,13 +102,13 @@ El presente documento describe la segunda iteración y actualización de la Espe
          │                                                 │
    [ TIENDA PÚBLICA ]                             [ PANEL ADMINISTRADOR ]
          │                                                 │
-   ├─ Home (/)                                       ├─ Dashboard (/admin)
-   ├─ Categorías (/categorias)                       ├─ CRUD Productos (/admin/productos)
-   ├─ Ofertas (/ofertas)                             │   ├─ Nuevo Producto
+   ├─ Inicio (/)                                     ├─ Dashboard (/admin)
+   ├─ Categorías (/categorias)                       ├─ Gestión Productos (/admin/productos)
+   ├─ Ofertas (/ofertas)                             │   ├─ Crear Producto
    ├─ Detalle Producto (/producto/:id)               │   ├─ Editar Producto
    ├─ Carrito (/carrito)                             │   ├─ Eliminar Producto
-   ├─ Checkout (/checkout)                           │   └─ Alerta Stock Crítico
-   │    ├─ Compra Exitosa (/compra-exitosa)          └─ Órdenes / Boletas (/admin/ordenes)
+   ├─ Checkout (/checkout)                           │   └─ Filtro Stock Crítico
+   │    ├─ Compra Exitosa (/compra-exitosa)          └─ Órdenes y Boletas (/admin/ordenes)
    │    └─ Compra Fallida (/compra-fallida)
    ├─ Nosotros (/nosotros)
    ├─ Blog (/blog)

@@ -1,53 +1,67 @@
-# HuertoHogar - Desarrollo Full Stack II (DSY1104)
+# HuertoHogar - DSY1104 Desarrollo Full Stack II
 
-Proyecto semestral para la asignatura **Desarrollo Full Stack II (DSY1104)** de Duoc UC.
+Plataforma e-commerce para venta de frutas, verduras y productos orgánicos, desarrollada con React, Vite y Bootstrap para la asignatura **Desarrollo Full Stack II (DSY1104)** de Duoc UC.
 
----
-
-## 📋 Implementación Guía 2.1.2: React Bootstrap y Despliegue en AWS EC2
-
-Este repositorio contiene la implementación completa de la **Guía 2.1.2: Configuración de React Bootstrap en un entorno de desarrollo en EC2 de AWS**.
-
-### 🛠️ Tecnologías y Librerías Utilizadas
-- **React 19** con **Vite**
-- **Bootstrap 5** y **React-Bootstrap**
-- **React Router Dom** (Navegación SPA)
-- **Vitest** y **Testing Library** (Pruebas unitarias)
-- **Amazon EC2 (AWS Academy Learner Lab)** (Servidor Ubuntu con Node.js 22 y PM2)
+## Integrantes - Grupo 8
+- Camilo Pérez
+- Bryan Rodríguez
+- Hugo Pinto
 
 ---
 
-## 📁 Estructura del Repositorio
+## Tecnologías Utilizadas
+- **Frontend:** React 19, Vite, React-Bootstrap, Bootstrap 5, Bootstrap Icons
+- **Enrutamiento:** React Router DOM (Single Page Application)
+- **Testing:** Vitest, @testing-library/react, @testing-library/jest-dom, jsdom
+- **Despliegue:** AWS EC2 (Ubuntu 24.04 LTS en AWS Academy Learner Lab, Node.js 22, PM2)
 
-- **`huertohogar-app/`**: Aplicación web completa en React:
+---
+
+## Estructura del Repositorio
+
+- **`huertohogar-app/`**: Aplicación web en React:
   - `src/components/`: Componentes reutilizables (`Navbar.jsx`, `Footer.jsx`, `ProductCard.jsx`).
-  - `src/pages/`: Pantallas principales de la tienda y panel administrativo (`Home`, `Cart`, `Checkout`, `AdminProducts`, etc.).
-  - `src/context/`: `CartContext.jsx` para el estado global y lógica del carrito de compras.
-  - `src/data/`: `db.js` con el catálogo de productos y almacenamiento local (Mock DB).
-  - `public/assets/`: Imágenes de los productos y logotipo.
-  - `src/__tests__/`: Pruebas unitarias automatizadas.
-- **`evaluacion-1/`**: Archivos estáticos originales en HTML, CSS y JS de la primera entrega.
+  - `src/pages/`: Vistas de la tienda (Catálogo, Categorías, Ofertas, Detalle, Carrito, Checkout) y panel de administración (`/admin`).
+  - `src/context/`: Estado global del carrito (`CartContext.jsx`).
+  - `src/data/`: Capa de datos simulada y persistencia en `localStorage` (`db.js`).
+  - `src/__tests__/`: Batería de pruebas unitarias (`evaluacion2.test.jsx`).
+  - `public/assets/`: Imágenes de catálogo y recursos estáticos.
+- **`evaluacion-1/`**: Archivos de la primera entrega (HTML5, CSS3, JavaScript vanilla).
 - **`Documentacion/`**: 
-  - `GUIA_DESPLIEGUE_AWS_EC2.docx`: Guía paso a paso en formato Word.
-  - `GUIA_DESPLIEGUE_AWS_EC2.md`: Guía de despliegue en formato Markdown.
-  - `ERS_HuertoHogar_V2.md`: Especificación de Requisitos de Software versión 2.
-  - `Documento_Cobertura_Testing.md`: Reporte de testing y pruebas unitarias.
+  - `ERS_HuertoHogar_V2.md`: Especificación de Requisitos de Software (V2).
+  - `Documento_Cobertura_Testing.md`: Reporte de pruebas unitarias y cobertura.
+  - `GUIA_DESPLIEGUE_AWS_EC2.md`: Guía técnica de despliegue en AWS EC2 (Markdown).
+  - `GUIA_DESPLIEGUE_AWS_EC2.docx`: Guía técnica de despliegue en AWS EC2 (Word).
 
 ---
 
-## 🚀 Ejecución en Local
+## Ejecución en Entorno Local
 
+1. Ingresar a la carpeta de la aplicación:
 ```bash
 cd huertohogar-app
+```
+
+2. Instalar dependencias:
+```bash
 npm install
+```
+
+3. Iniciar el servidor de desarrollo:
+```bash
 npm run dev
+```
+
+4. Ejecutar pruebas unitarias:
+```bash
+npm run test
 ```
 
 ---
 
-## ☁️ Despliegue en Servidor AWS EC2
+## Despliegue en AWS EC2
 
-Para levantar el proyecto en una instancia EC2 (Ubuntu):
+Instrucciones para levantar la aplicación en una instancia Ubuntu en AWS Learner Lab:
 
 ```bash
 git clone https://github.com/drkFenix/FS2_S04_G8.git
@@ -57,7 +71,7 @@ npm install -g pm2
 pm2 start "npm start" --name "huertohogar"
 ```
 
-El servidor queda disponible para navegación pública en:
+El servicio queda accesible en la IP pública de la instancia:
 ```text
 http://<IP_PUBLICA_EC2>:3000
 ```

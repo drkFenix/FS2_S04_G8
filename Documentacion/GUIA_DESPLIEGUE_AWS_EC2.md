@@ -1,103 +1,110 @@
-# Guía del Proyecto y Despliegue en AWS EC2
+# Guía de Despliegue en AWS EC2 - HuertoHogar
 
-**Proyecto:** HuertoHogar (React + Bootstrap)  
-**Asignatura:** DSY1104 Desarrollo Full Stack II  
-
----
-
-## 1. Estructura y Funcionamiento del Proyecto (¿Qué es cada cosa?)
-
-| Elemento / Carpeta | Concepto clave | Función en HuertoHogar |
-| :--- | :--- | :--- |
-| **`CartContext`** | Lógica y Memoria | Cerebro central del carrito: guarda los productos seleccionados, calcula el precio total a pagar y provee funciones para agregar, restar o vaciar. |
-| **`data` (`db.js`)** | Nuestros Objetos | Base de datos simulada con los objetos del catálogo: manzanas, naranjas, leche, etc., con su id, precio, stock y categoría. |
-| **`pages`** | Ventanas / Pantallas | Vistas completas de la tienda: Inicio (Home), Carrito (Cart), Pagar (Checkout), Administrador (AdminProducts), Login y Registro. |
-| **`components`** | Piezas Reutilizables | Bloques que arman la página: Navbar (encabezado/menú), Footer (pie de página) y ProductCard (tarjeta de cada producto). |
-| **`assets` (`public/assets`)** | Imágenes | Carpeta pública donde se alojan las fotos de los productos (`manzanas.jpg`, `platanos.png`, `logo.png`) para que carguen directo en la web. |
-| **`__tests__` (`test`)** | Pruebas Unitarias | Pruebas automáticas que validan que el carrito sume bien y que el CRUD funcione correctamente sin errores. |
-| **`main.jsx`** | Punto de Partida | Primer archivo que se ejecuta al abrir la web; inyecta React en el HTML principal. |
-| **`App.jsx`** | Organizador Maestro | Conecta las rutas del menú, coloca el Navbar arriba, el Footer abajo y muestra la página correspondiente. |
-| **`index.css` / `App.css`** | Estilos Visuales | `index.css` define fuentes y colores globales; `App.css` aplica los estilos de tarjetas y botones. |
-| **`setupTests.js`** | Preparador de Pruebas | Configura las librerías de prueba (`@testing-library/jest-dom`) para simular el navegador en los tests. |
+**Proyecto:** HuertoHogar (React + Vite + React-Bootstrap)  
+**Asignatura:** Desarrollo Full Stack II (DSY1104) - Duoc UC  
+**Grupo 8:** Camilo Pérez, Bryan Rodríguez, Hugo Pinto  
 
 ---
 
-## 2. Parámetros exactos para Crear la Instancia en AWS EC2
+## 1. Arquitectura y Componentes del Proyecto
 
-Al entrar a la consola de AWS EC2 y presionar el botón naranja **Lanzar instancias** (*Launch instance*), completa únicamente estos datos:
+La aplicación está construida sobre una arquitectura Single Page Application (SPA) en React:
 
-| Sección en AWS | Campo | Valor a colocar |
-| :--- | :--- | :--- |
-| **Nombre y etiquetas** | Nombre | `reactBootstrap` |
-| **Imágenes de software (AMI)** | Sistema Operativo | Clic en el recuadro naranja **Ubuntu** (Ubuntu 22.04 o 24.04 LTS) |
-| **Tipo de instancia** | Tipo de servidor | `t2.micro` o `t3.micro` (Apto para capa gratuita) |
-| **Par de claves (Key Pair)** | Clave de acceso | Crear nuevo par -> Nombre: `userReact`, tipo RSA, formato `.pem` |
-| **Configuración de red** | Casillas rápidas | Marcar casillas: ✅ **HTTPS** y ✅ **HTTP** |
-| | Editar reglas | Clic en **Editar** -> **Agregar regla**:<br>• **Tipo:** `TCP personalizado`<br>• **Puerto:** `3000`<br>• **Origen:** `Cualquier lugar` (`0.0.0.0/0`) |
-| **Almacenamiento** | Tamaño de disco | Cambiar de `8 GiB` a **`20 GiB`** (gp3) |
-
-Presiona el botón naranja **Lanzar instancia**.
+| Módulo / Archivo | Rol en la Aplicación |
+| :--- | :--- |
+| **`CartContext.jsx`** | Administra el estado global del carrito de compras, cálculo de subtotales y persistencia con la capa de datos. |
+| **`db.js`** | Mock database en JavaScript que inicializa el catálogo de productos y gestiona la persistencia en `localStorage`. |
+| **`pages/`** | Vistas principales de la tienda (`Home`, `Categorias`, `Ofertas`, `Cart`, `Checkout`, `ProductDetail`) y panel administrativo (`/admin`). |
+| **`components/`** | Componentes modulares reutilizables (`Navbar`, `Footer`, `ProductCard`). |
+| **`public/assets/`** | Archivos estáticos e imágenes del catálogo de productos y logotipo institucional. |
+| **`__tests__/`** | Suite de pruebas unitarias implementadas con Vitest y React Testing Library. |
+| **`main.jsx` / `App.jsx`** | Punto de entrada del cliente, configuración del router (`react-router-dom`) y del contenedor de contexto. |
 
 ---
 
-## 3. Conectarse a la Máquina Virtual
+## 2. Parámetros para la Instancia EC2 (AWS Academy / Learner Lab)
 
-1. En la lista de EC2 selecciona la instancia `reactBootstrap` y haz clic en el botón **Conectar** (arriba a la izquierda).
-2. En la pestaña **Conexión de la instancia EC2** presiona el botón **Conectar** abajo.
-3. Se abrirá automáticamente la terminal negra de comandos de Ubuntu en tu navegador.
+En la consola de Amazon EC2, ingresar a **Launch Instances** (Lanzar instancias) y configurar los siguientes valores:
+
+1. **Name:** `reactBootstrap`
+2. **AMI (Application and OS Images):** `Ubuntu Server 24.04 LTS` o `Ubuntu Server 22.04 LTS` (64-bit x86).
+3. **Instance Type:** `t2.micro` o `t3.micro` (disponible en la capa educativa de AWS Academy).
+4. **Key Pair (Par de claves):** Crear un nuevo par de claves (ej: `userReact.pem`, tipo RSA) o seleccionar uno existente.
+5. **Network Settings (Configuración de red):**
+   - Habilitar tráfico HTTP y HTTPS.
+   - En **Reglas de Security Group (Inbound Rules)**, agregar la regla para el puerto de la aplicación:
+     - **Tipo:** Custom TCP (TCP personalizado)
+     - **Puerto:** `3000`
+     - **Origen:** `0.0.0.0/0` (Anywhere IPv4)
+6. **Storage (Almacenamiento):** 20 GiB (gp3).
+
+Presionar **Launch Instance** para iniciar la máquina virtual.
 
 ---
 
-## 4. Comandos directos en la Terminal de AWS (Pantalla Negra)
+## 3. Conexión a la Instancia
 
-Copia y pega estos comandos uno a uno en la terminal de AWS:
+1. En el panel de instancias de EC2, seleccionar la instancia `reactBootstrap`.
+2. Presionar el botón **Connect** (Conectar).
+3. Seleccionar la pestaña **EC2 Instance Connect** y presionar **Connect** para abrir una sesión interactiva en el navegador (o conectarse vía SSH mediante terminal con el archivo de clave privada `.pem`).
 
-### Paso 4.1: Actualizar el servidor
+---
+
+## 4. Instalación del Entorno y Ejecución en el Servidor
+
+Ejecutar los siguientes comandos en la terminal de la instancia Ubuntu:
+
+### 4.1 Actualización de paquetes del sistema
 ```bash
 sudo apt-get update -y
 ```
 
-### Paso 4.2: Instalar el gestor de versiones NVM
+### 4.2 Instalación de Node Version Manager (NVM)
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 ```
 
-### Paso 4.3: Instalar Node.js versión 22
+### 4.3 Instalación de Node.js (v22 LTS)
 ```bash
 nvm install 22
 node -v
 npm -v
 ```
 
-### Paso 4.4: Clonar tu proyecto de GitHub
+### 4.4 Clonación del repositorio
 ```bash
 git clone https://github.com/drkFenix/FS2_S04_G8.git
 ```
 
-### Paso 4.5: Entrar a la carpeta e instalar librerías
+### 4.5 Instalación de dependencias del proyecto
 ```bash
 cd FS2_S04_G8/huertohogar-app
 npm install
 ```
 
-### Paso 4.6: Dejar la aplicación corriendo permanentemente con PM2
+### 4.6 Gestión y ejecución del proceso con PM2
+Para mantener el servidor ejecutándose en segundo plano de manera persistente:
 ```bash
 npm install -g pm2
 pm2 start "npm start" --name "huertohogar"
 ```
 
----
-
-## 5. Abrir la Aplicación en el Navegador
-
-Copia la IP pública que aparece en el panel de AWS (o en la barra inferior de la terminal) y ábrela en tu navegador:
-
-```text
-http://TU-IP-PUBLICA:3000
+Para verificar el estado del proceso o ver logs:
+```bash
+pm2 status
+pm2 logs huertohogar
 ```
 
-> **¡Ojo con el enlace!**  
-> ❌ **INCORRECTO:** `https://34.230.35.62:3000` (dará error ERR_SSL_PROTOCOL_ERROR por la letra "s")  
-> ✅ **CORRECTO:** `http://34.230.35.62:3000` (sin la letra "s")
+---
+
+## 5. Acceso y Verificación del Servicio
+
+Una vez iniciado el proceso en PM2, abrir en el navegador web:
+
+```text
+http://<IP_PUBLICA_EC2>:3000
+```
+
+> **Nota sobre el protocolo:** La instancia utiliza protocolo HTTP directo en el puerto 3000 (`http://`), no HTTPS (`https://`), a menos que se configure previamente un certificado SSL y un reverse proxy como Nginx.

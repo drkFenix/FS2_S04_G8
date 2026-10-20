@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+dist/
+
+# Microsoft Office temporary files
+~$*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
