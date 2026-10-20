@@ -112,8 +112,7 @@ function Cart() {
         </Card.Body>
       </Card>
 
-      {/* Resumen y Acciones */}
-      <Row className="justify-content-end">
+            <Row className="justify-content-end">
         <Col md={5} lg={4}>
           <Card className="border-0 shadow-sm p-4 bg-light">
             <h4 className="fw-bold text-dark mb-3">Resumen de Compra</h4>

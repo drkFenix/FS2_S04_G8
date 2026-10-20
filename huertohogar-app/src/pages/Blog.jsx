@@ -60,8 +60,7 @@ function Blog() {
         ))}
       </Row>
 
-      {/* Modal de Detalle de Blog (Detalle Blog #1 / #2 según el diagrama) */}
-      <Modal show={!!articuloSeleccionado} onHide={() => setArticuloSeleccionado(null)} size="lg" centered>
+            <Modal show={!!articuloSeleccionado} onHide={() => setArticuloSeleccionado(null)} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title className="fw-bold text-success">{articuloSeleccionado?.titulo}</Modal.Title>
         </Modal.Header>

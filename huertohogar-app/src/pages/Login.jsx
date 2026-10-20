@@ -15,7 +15,6 @@ function Login() {
       return;
     }
 
-    // Validación simulada
     if (correo.includes('admin')) {
       alert('¡Bienvenido Administrador a HuertoHogar!');
       navigate('/admin');

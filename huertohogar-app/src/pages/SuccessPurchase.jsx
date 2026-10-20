@@ -30,8 +30,7 @@ function SuccessPurchase() {
     <Container className="py-5">
       <Row className="justify-content-center">
         <Col lg={9}>
-          {/* Banner de Éxito */}
-          <Alert variant="success" className="d-flex align-items-center gap-3 p-4 shadow-sm mb-4">
+                    <Alert variant="success" className="d-flex align-items-center gap-3 p-4 shadow-sm mb-4">
             <div className="fs-1">✅</div>
             <div>
               <h3 className="fw-bold mb-1">Se ha realizado la compra. nro #{numeroOrden}</h3>
@@ -41,8 +40,7 @@ function SuccessPurchase() {
             </div>
           </Alert>
 
-          {/* Información del Cliente y Entrega */}
-          <Card className="border-0 shadow-sm mb-4">
+                    <Card className="border-0 shadow-sm mb-4">
             <Card.Header className="bg-light fw-bold">Detalle del despacho y cliente</Card.Header>
             <Card.Body className="p-4">
               <Row className="g-3">
@@ -80,8 +78,7 @@ function SuccessPurchase() {
             </Card.Body>
           </Card>
 
-          {/* Tabla de Productos Comprados */}
-          <Card className="border-0 shadow-sm mb-4">
+                    <Card className="border-0 shadow-sm mb-4">
             <Card.Header className="bg-light fw-bold">Productos en esta orden</Card.Header>
             <Card.Body className="p-0">
               <Table responsive className="m-0 text-center align-middle">
@@ -116,15 +113,13 @@ function SuccessPurchase() {
             </Card.Body>
           </Card>
 
-          {/* Total Pagado */}
-          <div className="text-center p-3 bg-light rounded shadow-sm mb-4">
+                    <div className="text-center p-3 bg-light rounded shadow-sm mb-4">
             <h3 className="fw-bold text-success m-0">
               Total pagado: ${total.toLocaleString('es-CL')} CLP
             </h3>
           </div>
 
-          {/* Acciones */}
-          <div className="d-flex justify-content-center gap-3">
+                    <div className="d-flex justify-content-center gap-3">
             <Button variant="danger" onClick={handleImprimir}>
               📄 Imprimir boleta en PDF
             </Button>

@@ -78,8 +78,7 @@ function AdminOrders() {
         </Table>
       </div>
 
-      {/* Modal de Detalle de Boleta */}
-      <Modal show={!!ordenSeleccionada} onHide={() => setOrdenSeleccionada(null)} size="lg" centered>
+            <Modal show={!!ordenSeleccionada} onHide={() => setOrdenSeleccionada(null)} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title className="fw-bold text-success">
             Boleta Electrónica #{ordenSeleccionada?.numeroOrden}

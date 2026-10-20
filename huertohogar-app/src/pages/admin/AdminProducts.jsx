@@ -18,7 +18,6 @@ function AdminProducts() {
   const [productoEditando, setProductoEditando] = useState(null);
   const [mensaje, setMensaje] = useState(null);
 
-  // Formulario modal
   const [formData, setFormData] = useState({
     nombre: '',
     categoria: 'Frutas Frescas',
@@ -131,8 +130,7 @@ function AdminProducts() {
         </Alert>
       )}
 
-      {/* Filtros */}
-      <Row className="mb-4 g-2 align-items-center">
+            <Row className="mb-4 g-2 align-items-center">
         <Col md={6}>
           <InputGroup>
             <InputGroup.Text>🔍</InputGroup.Text>
@@ -155,8 +153,7 @@ function AdminProducts() {
         </Col>
       </Row>
 
-      {/* Tabla CRUD */}
-      <div className="card border-0 shadow-sm">
+            <div className="card border-0 shadow-sm">
         <Table responsive hover className="m-0 align-middle text-center">
           <thead className="table-light">
             <tr>
@@ -252,8 +249,7 @@ function AdminProducts() {
         </Table>
       </div>
 
-      {/* Modal para Crear / Editar Producto */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" centered>
+            <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title className="fw-bold text-success">
             {productoEditando ? `Editar: ${productoEditando.nombre}` : 'Crear Nuevo Producto'}

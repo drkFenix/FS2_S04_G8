@@ -4,7 +4,6 @@ import { CartProvider } from './context/CartContext';
 import NavigationBar from './components/Navbar';
 import Footer from './components/Footer';
 
-// Páginas de la Tienda
 import Home from './pages/Home';
 import Categorias from './pages/Categorias';
 import Ofertas from './pages/Ofertas';
@@ -19,7 +18,6 @@ import Contacto from './pages/Contacto';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
-// Páginas de Administración
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminOrders from './pages/admin/AdminOrders';
@@ -32,8 +30,7 @@ function App() {
           <NavigationBar />
           <main className="flex-grow-1">
             <Routes>
-              {/* Rutas de la Tienda */}
-              <Route path="/" element={<Home />} />
+                            <Route path="/" element={<Home />} />
               <Route path="/categorias" element={<Categorias />} />
               <Route path="/ofertas" element={<Ofertas />} />
               <Route path="/producto/:id" element={<ProductDetail />} />
@@ -47,8 +44,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/registro" element={<Register />} />
 
-              {/* Rutas del Sistema Administrativo */}
-              <Route path="/admin" element={<AdminDashboard />} />
+                            <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/productos" element={<AdminProducts />} />
               <Route path="/admin/ordenes" element={<AdminOrders />} />
             </Routes>

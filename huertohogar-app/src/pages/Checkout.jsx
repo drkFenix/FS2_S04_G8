@@ -26,7 +26,6 @@ function Checkout() {
   const { cart, cartTotal, clearCart } = useCart();
   const navigate = useNavigate();
 
-  // Datos del formulario (pre-rellenados opcionalmente para agilidad de presentación)
   const [formData, setFormData] = useState({
     nombre: 'Pedro',
     apellidos: 'Hacker',
@@ -57,7 +56,6 @@ function Checkout() {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-      // Si cambia de región, actualizar la comuna a la primera de la lista
       ...(name === 'region' && { comuna: COMUNAS_POR_REGION[value]?.[0] || '' })
     }));
   };
@@ -80,7 +78,6 @@ function Checkout() {
     }
 
     if (simularError) {
-      // Simular fallo de pago (Figura 8 del requerimiento)
       const ordenFallida = crearOrden({
         cliente: formData,
         items: cart,
@@ -89,7 +86,6 @@ function Checkout() {
       });
       navigate('/compra-fallida', { state: { orden: ordenFallida } });
     } else {
-      // Compra exitosa (Figura 7 del requerimiento)
       const ordenExitosa = crearOrden({
         cliente: formData,
         items: cart,
@@ -112,8 +108,7 @@ function Checkout() {
             </div>
           </div>
 
-          {/* Tabla Resumen de Productos */}
-          <Card className="border-0 shadow-sm mb-4">
+                    <Card className="border-0 shadow-sm mb-4">
             <Card.Header className="bg-light fw-bold">Resumen de productos seleccionados</Card.Header>
             <Card.Body className="p-0">
               <Table responsive hover className="m-0 text-center align-middle">
@@ -148,10 +143,8 @@ function Checkout() {
             </Card.Body>
           </Card>
 
-          {/* Formulario de Checkout */}
-          <Form onSubmit={handleSubmit}>
-            {/* Información del cliente */}
-            <Card className="border-0 shadow-sm mb-4">
+                    <Form onSubmit={handleSubmit}>
+                        <Card className="border-0 shadow-sm mb-4">
               <Card.Header className="bg-light fw-bold">
                 Información del cliente
               </Card.Header>
@@ -200,8 +193,7 @@ function Checkout() {
               </Card.Body>
             </Card>
 
-            {/* Dirección de entrega */}
-            <Card className="border-0 shadow-sm mb-4">
+                        <Card className="border-0 shadow-sm mb-4">
               <Card.Header className="bg-light fw-bold">
                 Dirección de entrega de los productos
               </Card.Header>
@@ -270,8 +262,7 @@ function Checkout() {
               </Card.Body>
             </Card>
 
-            {/* Selector de Prueba para evaluación: Simular Éxito o Fallo */}
-            <Card className="border-warning bg-warning-subtle mb-4">
+                        <Card className="border-warning bg-warning-subtle mb-4">
               <Card.Body className="py-2 px-3 d-flex justify-content-between align-items-center">
                 <span className="small text-dark">
                   🛠️ <strong>Control de Evaluación:</strong> Simula el resultado del Webpay / Pasarela

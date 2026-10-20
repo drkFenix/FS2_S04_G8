@@ -51,8 +51,7 @@ function Categorias() {
         </p>
       </div>
 
-      {/* Barra de navegación de categorías */}
-      <Nav variant="pills" className="justify-content-center gap-2 mb-5 flex-wrap">
+            <Nav variant="pills" className="justify-content-center gap-2 mb-5 flex-wrap">
         {CATEGORIAS_LISTA.map((cat) => (
           <Nav.Item key={cat}>
             <Nav.Link
@@ -71,8 +70,7 @@ function Categorias() {
         ))}
       </Nav>
 
-      {/* Listado de Productos */}
-      <div className="mb-4 d-flex justify-content-between align-items-center">
+            <div className="mb-4 d-flex justify-content-between align-items-center">
         <h3 className="fw-bold text-secondary m-0">
           {categoriaActiva === 'Todas' ? 'Todos los Productos' : categoriaActiva}
         </h3>

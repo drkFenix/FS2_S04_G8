@@ -139,11 +139,6 @@ const STORAGE_KEYS = {
   CARRITO: 'huertohogar_carrito'
 };
 
-// ==========================================
-// OPERACIONES CRUD DE PRODUCTOS (Persistencia)
-// ==========================================
-
-// LEER (Read all)
 export function obtenerProductos() {
   const guardados = localStorage.getItem(STORAGE_KEYS.PRODUCTOS);
   if (!guardados) {
@@ -157,13 +152,11 @@ export function obtenerProductos() {
   }
 }
 
-// LEER POR ID (Read one)
 export function obtenerProductoPorId(id) {
   const productos = obtenerProductos();
   return productos.find((p) => p.id === Number(id)) || null;
 }
 
-// CREAR (Create)
 export function crearProducto(nuevoProducto) {
   const productos = obtenerProductos();
   const nuevoId = productos.length > 0 ? Math.max(...productos.map((p) => p.id)) + 1 : 1;
@@ -179,7 +172,6 @@ export function crearProducto(nuevoProducto) {
   return productoConId;
 }
 
-// ACTUALIZAR (Update)
 export function actualizarProducto(id, datosActualizados) {
   const productos = obtenerProductos();
   const index = productos.findIndex((p) => p.id === Number(id));
@@ -199,17 +191,12 @@ export function actualizarProducto(id, datosActualizados) {
   return productos[index];
 }
 
-// ELIMINAR (Delete)
 export function eliminarProducto(id) {
   const productos = obtenerProductos();
   const listaFiltrada = productos.filter((p) => p.id !== Number(id));
   localStorage.setItem(STORAGE_KEYS.PRODUCTOS, JSON.stringify(listaFiltrada));
   return true;
 }
-
-// ==========================================
-// GESTIÓN DE ÓRDENES (Checkout y Admin)
-// ==========================================
 
 export function obtenerOrdenes() {
   const guardadas = localStorage.getItem(STORAGE_KEYS.ORDENES);
@@ -226,7 +213,7 @@ export function obtenerOrdenes() {
 
 export function crearOrden(datosOrden) {
   const ordenes = obtenerOrdenes();
-  const numeroOrden = Math.floor(10000000 + Math.random() * 90000000); // 8 dígitos ej: 20240705
+  const numeroOrden = Math.floor(10000000 + Math.random() * 90000000);
   const nuevaOrden = {
     id: ordenes.length + 1,
     numeroOrden,
@@ -237,7 +224,6 @@ export function crearOrden(datosOrden) {
   const listaActualizada = [nuevaOrden, ...ordenes];
   localStorage.setItem(STORAGE_KEYS.ORDENES, JSON.stringify(listaActualizada));
 
-  // Reducir stock de los productos comprados si la orden fue exitosa
   if (nuevaOrden.estado === 'completada' && nuevaOrden.items) {
     const productos = obtenerProductos();
     nuevaOrden.items.forEach((item) => {
@@ -251,10 +237,6 @@ export function crearOrden(datosOrden) {
 
   return nuevaOrden;
 }
-
-// ==========================================
-// GESTIÓN DEL CARRITO (Persistencia)
-// ==========================================
 
 export function obtenerCarrito() {
   const guardado = localStorage.getItem(STORAGE_KEYS.CARRITO);

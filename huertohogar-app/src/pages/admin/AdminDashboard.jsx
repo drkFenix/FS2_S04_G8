@@ -41,8 +41,7 @@ function AdminDashboard() {
         </Link>
       </div>
 
-      {/* Tarjetas de Métricas Principales (Figura 9) */}
-      <Row className="g-4 mb-5">
+            <Row className="g-4 mb-5">
         <Col md={4}>
           <Card className="border-0 shadow-sm text-white bg-primary p-3">
             <Card.Body className="d-flex align-items-center justify-content-between">
@@ -85,8 +84,7 @@ function AdminDashboard() {
         </Col>
       </Row>
 
-      {/* Módulos de Accesos Rápidos (Figura 9) */}
-      <h3 className="fw-bold text-secondary mb-4">Módulos del Sistema</h3>
+            <h3 className="fw-bold text-secondary mb-4">Módulos del Sistema</h3>
       <Row className="g-4">
         {accesos.map((item, idx) => (
           <Col key={idx} xs={12} sm={6} lg={3}>

@@ -28,8 +28,7 @@ function Home() {
 
   return (
     <div>
-      {/* Hero Banner */}
-      <section className="bg-light py-5 border-bottom">
+            <section className="bg-light py-5 border-bottom">
         <Container>
           <Row className="align-items-center g-4">
             <Col lg={7}>
@@ -43,8 +42,7 @@ function Home() {
                 Conéctate con la naturaleza y lleva los mejores alimentos cultivados por agricultores locales directo a tu mesa.
               </p>
               
-              {/* Buscador */}
-              <InputGroup size="lg" className="shadow-sm mb-3">
+                            <InputGroup size="lg" className="shadow-sm mb-3">
                 <Form.Control
                   placeholder="Buscar frutas, verduras, miel..."
                   value={busqueda}
@@ -67,8 +65,7 @@ function Home() {
         </Container>
       </section>
 
-      {/* Categorías Principales */}
-      <section className="py-5">
+            <section className="py-5">
         <Container>
           <div className="text-center mb-5">
             <h2 className="fw-bold text-success">Nuestras Categorías</h2>
@@ -100,8 +97,7 @@ function Home() {
         </Container>
       </section>
 
-      {/* Sección de Ofertas Destacadas */}
-      {ofertas.length > 0 && !busqueda && (
+            {ofertas.length > 0 && !busqueda && (
         <section className="py-5 bg-warning-subtle border-top border-bottom">
           <Container>
             <div className="d-flex justify-content-between align-items-center mb-4">
@@ -124,8 +120,7 @@ function Home() {
         </section>
       )}
 
-      {/* Catálogo de Productos o Resultados de Búsqueda */}
-      <section className="py-5">
+            <section className="py-5">
         <Container>
           <div className="d-flex justify-content-between align-items-center mb-4">
             <div>

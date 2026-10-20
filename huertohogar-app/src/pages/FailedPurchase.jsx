@@ -25,8 +25,7 @@ function FailedPurchase() {
     <Container className="py-5">
       <Row className="justify-content-center">
         <Col lg={9}>
-          {/* Banner de Fallo */}
-          <Alert variant="danger" className="d-flex align-items-center gap-3 p-4 shadow-sm mb-4">
+                    <Alert variant="danger" className="d-flex align-items-center gap-3 p-4 shadow-sm mb-4">
             <div className="fs-1">⚠️</div>
             <div>
               <h3 className="fw-bold mb-1">No se pudo realizar el pago. nro #{numeroOrden}</h3>
@@ -36,8 +35,7 @@ function FailedPurchase() {
             </div>
           </Alert>
 
-          {/* Botón Destacado de Reintento */}
-          <div className="text-center mb-4">
+                    <div className="text-center mb-4">
             <Button
               variant="success"
               size="lg"
@@ -48,8 +46,7 @@ function FailedPurchase() {
             </Button>
           </div>
 
-          {/* Detalle de la compra */}
-          <Card className="border-0 shadow-sm mb-4">
+                    <Card className="border-0 shadow-sm mb-4">
             <Card.Header className="bg-light fw-bold">Detalle de la compra</Card.Header>
             <Card.Body className="p-4">
               <Row className="g-3">
@@ -87,8 +84,7 @@ function FailedPurchase() {
             </Card.Body>
           </Card>
 
-          {/* Tabla de Productos */}
-          {items.length > 0 && (
+                    {items.length > 0 && (
             <Card className="border-0 shadow-sm mb-4">
               <Card.Header className="bg-light fw-bold">Productos que intentabas adquirir</Card.Header>
               <Card.Body className="p-0">
