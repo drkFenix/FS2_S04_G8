@@ -1,10 +1,9 @@
 import React from 'react';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Container, Card, Table, Button, Row, Col, Alert } from 'react-bootstrap';
 
 function SuccessPurchase() {
   const location = useLocation();
-  const navigate = useNavigate();
   const orden = location.state?.orden;
 
   if (!orden) {
@@ -30,18 +29,19 @@ function SuccessPurchase() {
     <Container className="py-5">
       <Row className="justify-content-center">
         <Col lg={9}>
-                    <Alert variant="success" className="d-flex align-items-center gap-3 p-4 shadow-sm mb-4">
-            <div className="fs-1">✅</div>
+          <Alert variant="success" className="d-flex align-items-center gap-3 p-4 shadow-sm mb-4">
+            <i className="bi bi-check-circle-fill text-success fs-1"></i>
             <div>
-              <h3 className="fw-bold mb-1">Se ha realizado la compra. nro #{numeroOrden}</h3>
+              <h3 className="fw-bold mb-1">Compra confirmada - Orden #{numeroOrden}</h3>
               <p className="mb-0 text-secondary">
-                ¡Gracias por preferir a HuertoHogar! Tu pedido está siendo preparado para despacho.
+                Tu pedido ha sido recibido con éxito y está siendo preparado para despacho.
               </p>
             </div>
           </Alert>
 
-                    <Card className="border-0 shadow-sm mb-4">
-            <Card.Header className="bg-light fw-bold">Detalle del despacho y cliente</Card.Header>
+          {/* Detalle del cliente y despacho */}
+          <Card className="border-0 shadow-sm mb-4">
+            <Card.Header className="bg-light fw-bold">Detalle del Despacho</Card.Header>
             <Card.Body className="p-4">
               <Row className="g-3">
                 <Col sm={4}>
@@ -78,15 +78,16 @@ function SuccessPurchase() {
             </Card.Body>
           </Card>
 
-                    <Card className="border-0 shadow-sm mb-4">
-            <Card.Header className="bg-light fw-bold">Productos en esta orden</Card.Header>
+          {/* Desglose de productos comprados */}
+          <Card className="border-0 shadow-sm mb-4">
+            <Card.Header className="bg-light fw-bold">Productos de la Orden</Card.Header>
             <Card.Body className="p-0">
               <Table responsive className="m-0 text-center align-middle">
                 <thead>
                   <tr className="text-secondary small">
                     <th>Imagen</th>
                     <th className="text-start">Nombre</th>
-                    <th>Precio</th>
+                    <th>Precio Unit.</th>
                     <th>Cantidad</th>
                     <th>Subtotal</th>
                   </tr>
@@ -108,27 +109,29 @@ function SuccessPurchase() {
                       <td className="fw-bold">${(item.precio * item.cantidad).toLocaleString('es-CL')}</td>
                     </tr>
                   ))}
+                  <tr className="table-light">
+                    <td colSpan="4" className="text-end fw-bold">TOTAL PAGADO:</td>
+                    <td className="fw-bold text-success fs-5">
+                      ${total.toLocaleString('es-CL')} CLP
+                    </td>
+                  </tr>
                 </tbody>
               </Table>
             </Card.Body>
           </Card>
 
-                    <div className="text-center p-3 bg-light rounded shadow-sm mb-4">
-            <h3 className="fw-bold text-success m-0">
-              Total pagado: ${total.toLocaleString('es-CL')} CLP
-            </h3>
-          </div>
-
-                    <div className="d-flex justify-content-center gap-3">
-            <Button variant="danger" onClick={handleImprimir}>
-              📄 Imprimir boleta en PDF
-            </Button>
-            <Button variant="primary" onClick={handleEnviarEmail}>
-              ✉️ Enviar boleta por email
-            </Button>
-            <Button variant="outline-success" onClick={() => navigate('/')}>
-              🏪 Volver a la Tienda
-            </Button>
+          <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div className="d-flex gap-2">
+              <Button variant="danger" onClick={handleImprimir}>
+                <i className="bi bi-printer me-1"></i> Imprimir Boleta
+              </Button>
+              <Button variant="outline-secondary" onClick={handleEnviarEmail}>
+                <i className="bi bi-envelope me-1"></i> Enviar por Correo
+              </Button>
+            </div>
+            <Link to="/" className="btn btn-success">
+              Volver a la Tienda
+            </Link>
           </div>
         </Col>
       </Row>

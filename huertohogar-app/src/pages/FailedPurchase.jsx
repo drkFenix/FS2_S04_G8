@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Container, Card, Table, Button, Row, Col, Alert } from 'react-bootstrap';
 
@@ -7,7 +7,7 @@ function FailedPurchase() {
   const navigate = useNavigate();
   const orden = location.state?.orden;
 
-  const numeroOrden = orden?.numeroOrden || Math.floor(10000000 + Math.random() * 90000000);
+  const [numeroOrden] = useState(() => orden?.numeroOrden || Math.floor(10000000 + Math.random() * 90000000));
   const cliente = orden?.cliente || {
     nombre: 'Pedro',
     apellidos: 'Hacker',
@@ -25,29 +25,29 @@ function FailedPurchase() {
     <Container className="py-5">
       <Row className="justify-content-center">
         <Col lg={9}>
-                    <Alert variant="danger" className="d-flex align-items-center gap-3 p-4 shadow-sm mb-4">
-            <div className="fs-1">⚠️</div>
+          <Alert variant="danger" className="d-flex align-items-center gap-3 p-4 shadow-sm mb-4">
+            <i className="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
             <div>
-              <h3 className="fw-bold mb-1">No se pudo realizar el pago. nro #{numeroOrden}</h3>
+              <h3 className="fw-bold mb-1">No se pudo procesar el pago - Orden #{numeroOrden}</h3>
               <p className="mb-0 text-secondary">
-                Tu transacción fue rechazada por la entidad emisora o hubo un problema de conexión. No se ha realizado ningún cobro.
+                La transacción fue rechazada por la entidad bancaria o hubo un problema de conexión. No se ha realizado ningún cobro a tu tarjeta.
               </p>
             </div>
           </Alert>
 
-                    <div className="text-center mb-4">
+          <div className="text-center mb-4">
             <Button
               variant="success"
               size="lg"
               className="px-5 py-3 fw-bold shadow"
               onClick={() => navigate('/checkout')}
             >
-              🔄 VOLVER A REALIZAR EL PAGO
+              <i className="bi bi-arrow-repeat me-2"></i> Reintentar el Pago
             </Button>
           </div>
 
-                    <Card className="border-0 shadow-sm mb-4">
-            <Card.Header className="bg-light fw-bold">Detalle de la compra</Card.Header>
+          <Card className="border-0 shadow-sm mb-4">
+            <Card.Header className="bg-light fw-bold">Detalle del Intento de Compra</Card.Header>
             <Card.Body className="p-4">
               <Row className="g-3">
                 <Col sm={4}>
@@ -76,7 +76,7 @@ function FailedPurchase() {
                 </Col>
                 {cliente.indicaciones && (
                   <Col sm={12}>
-                    <strong className="d-block text-secondary small">Indicaciones para la entrega (opcional):</strong>
+                    <strong className="d-block text-secondary small">Indicaciones de entrega:</strong>
                     <span className="fst-italic text-muted">{cliente.indicaciones}</span>
                   </Col>
                 )}
@@ -84,9 +84,9 @@ function FailedPurchase() {
             </Card.Body>
           </Card>
 
-                    {items.length > 0 && (
+          {items.length > 0 && (
             <Card className="border-0 shadow-sm mb-4">
-              <Card.Header className="bg-light fw-bold">Productos que intentabas adquirir</Card.Header>
+              <Card.Header className="bg-light fw-bold">Productos en el Carrito</Card.Header>
               <Card.Body className="p-0">
                 <Table responsive className="m-0 text-center align-middle">
                   <thead>

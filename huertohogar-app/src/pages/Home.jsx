@@ -28,12 +28,13 @@ function Home() {
 
   return (
     <div>
-            <section className="bg-light py-5 border-bottom">
+      {/* Seccion principal / Hero */}
+      <section className="bg-light py-5 border-bottom">
         <Container>
           <Row className="align-items-center g-4">
             <Col lg={7}>
               <span className="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold mb-3">
-                🌱 100% Fresco y Natural
+                Productos 100% Frescos y Naturales
               </span>
               <h1 className="display-4 fw-bold text-success mb-3">
                 Descubre la frescura del campo en tu hogar
@@ -42,14 +43,14 @@ function Home() {
                 Conéctate con la naturaleza y lleva los mejores alimentos cultivados por agricultores locales directo a tu mesa.
               </p>
               
-                            <InputGroup size="lg" className="shadow-sm mb-3">
+              <InputGroup size="lg" className="shadow-sm mb-3">
                 <Form.Control
                   placeholder="Buscar frutas, verduras, miel..."
                   value={busqueda}
                   onChange={(e) => setBusqueda(e.target.value)}
                 />
                 <Button variant="success">
-                  🔍 Buscar
+                  <i className="bi bi-search me-1"></i> Buscar
                 </Button>
               </InputGroup>
             </Col>
@@ -65,7 +66,8 @@ function Home() {
         </Container>
       </section>
 
-            <section className="py-5">
+      {/* Categorias destacadas */}
+      <section className="py-5">
         <Container>
           <div className="text-center mb-5">
             <h2 className="fw-bold text-success">Nuestras Categorías</h2>
@@ -97,12 +99,13 @@ function Home() {
         </Container>
       </section>
 
-            {ofertas.length > 0 && !busqueda && (
+      {/* Seccion de ofertas vigentes */}
+      {ofertas.length > 0 && !busqueda && (
         <section className="py-5 bg-warning-subtle border-top border-bottom">
           <Container>
             <div className="d-flex justify-content-between align-items-center mb-4">
               <div>
-                <h2 className="fw-bold text-dark m-0">🔥 Ofertas Imperdibles</h2>
+                <h2 className="fw-bold text-dark m-0">Ofertas Imperdibles</h2>
                 <p className="text-muted m-0">Descuentos especiales por tiempo limitado</p>
               </div>
               <Link to="/ofertas" className="btn btn-warning fw-bold">
@@ -120,7 +123,8 @@ function Home() {
         </section>
       )}
 
-            <section className="py-5">
+      {/* Catalogo general o resultados de busqueda */}
+      <section className="py-5">
         <Container>
           <div className="d-flex justify-content-between align-items-center mb-4">
             <div>

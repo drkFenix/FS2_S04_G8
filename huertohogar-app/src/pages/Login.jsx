@@ -16,10 +16,10 @@ function Login() {
     }
 
     if (correo.includes('admin')) {
-      alert('¡Bienvenido Administrador a HuertoHogar!');
+      alert('Bienvenido al Panel de Administrador');
       navigate('/admin');
     } else {
-      alert(`¡Sesión iniciada con éxito! Bienvenido ${correo}`);
+      alert(`Sesión iniciada con éxito. Bienvenido ${correo}`);
       navigate('/');
     }
   };
@@ -76,8 +76,8 @@ function Login() {
                 Registrarse como nuevo cliente
               </Link>
 
-              <Button variant="link" size="sm" className="text-decoration-none" onClick={handleAccesoRapidoAdmin}>
-                ⚡ Autocompletar como Administrador
+              <Button variant="link" size="sm" className="text-decoration-none text-muted" onClick={handleAccesoRapidoAdmin}>
+                <i className="bi bi-shield-lock me-1"></i> Cargar credenciales de admin (demo)
               </Button>
             </div>
           </Card>

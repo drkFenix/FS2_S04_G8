@@ -16,7 +16,7 @@ function Ofertas() {
     <Container className="py-5">
       <div className="text-center mb-5">
         <span className="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-2 fs-6">
-          🔥 AHORRA EN TU COMPRA
+          <i className="bi bi-tag-fill me-1"></i> Descuentos de Temporada
         </span>
         <h1 className="fw-bold text-dark">Productos en Oferta</h1>
         <p className="text-muted">
@@ -25,7 +25,8 @@ function Ofertas() {
       </div>
 
       <Alert variant="warning" className="text-center mb-5">
-        ✨ <strong>¡Promoción especial!</strong> Descuentos exclusivos hasta agotar stock disponible.
+        <i className="bi bi-info-circle me-2"></i>
+        <strong>Promoción especial:</strong> Descuentos exclusivos hasta agotar stock disponible.
       </Alert>
 
       {ofertas.length === 0 ? (

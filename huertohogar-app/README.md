@@ -1,16 +1,10 @@
-# React + Vite
+# HuertoHogar App (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Aplicación frontend de la tienda HuertoHogar desarrollada con React 19, React-Bootstrap y React Router.
 
-Currently, two official plugins are available:
+## Comandos Disponibles
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- `npm run dev`: Inicia el servidor de desarrollo en local.
+- `npm run build`: Compila la aplicación para producción en la carpeta `dist/`.
+- `npm run test`: Ejecuta las pruebas unitarias con Vitest.
+- `npm start`: Inicia la aplicación escuchando en `0.0.0.0:3000` (utilizado para producción con PM2 en AWS EC2).

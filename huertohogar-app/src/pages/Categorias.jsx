@@ -51,7 +51,8 @@ function Categorias() {
         </p>
       </div>
 
-            <Nav variant="pills" className="justify-content-center gap-2 mb-5 flex-wrap">
+      {/* Filtros de navegacion por categoria */}
+      <Nav variant="pills" className="justify-content-center gap-2 mb-5 flex-wrap">
         {CATEGORIAS_LISTA.map((cat) => (
           <Nav.Item key={cat}>
             <Nav.Link
@@ -70,20 +71,20 @@ function Categorias() {
         ))}
       </Nav>
 
-            <div className="mb-4 d-flex justify-content-between align-items-center">
-        <h3 className="fw-bold text-secondary m-0">
-          {categoriaActiva === 'Todas' ? 'Todos los Productos' : categoriaActiva}
-        </h3>
-        <span className="text-muted">{productosFiltrados.length} productos</span>
-      </div>
-
-      <Row className="g-4">
-        {productosFiltrados.map((producto) => (
-          <Col key={producto.id} xs={12} sm={6} lg={4}>
-            <ProductCard producto={producto} />
-          </Col>
-        ))}
-      </Row>
+      {/* Grilla de productos */}
+      {productosFiltrados.length === 0 ? (
+        <Card className="text-center p-5 border-0 shadow-sm">
+          <h4>No hay productos disponibles en esta categoría</h4>
+        </Card>
+      ) : (
+        <Row className="g-4">
+          {productosFiltrados.map((producto) => (
+            <Col key={producto.id} xs={12} sm={6} lg={4}>
+              <ProductCard producto={producto} />
+            </Col>
+          ))}
+        </Row>
+      )}
     </Container>
   );
 }

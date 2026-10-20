@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Table, Button, Card, Row, Col, Alert } from 'react-bootstrap';
+import { Container, Table, Button, Card, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
@@ -11,10 +11,12 @@ function Cart() {
     return (
       <Container className="py-5 text-center">
         <Card className="border-0 shadow-sm p-5">
-          <div className="display-1 text-muted mb-3">🛒</div>
+          <div className="text-muted mb-3">
+            <i className="bi bi-cart-x display-1"></i>
+          </div>
           <h2 className="fw-bold text-secondary mb-3">Tu carrito está vacío</h2>
           <p className="text-muted mb-4">
-            Parece que aún no has agregado productos frescos a tu pedido.
+            Aún no has agregado productos frescos a tu pedido.
           </p>
           <div>
             <Link to="/categorias" className="btn btn-success px-4 py-2">
@@ -31,7 +33,7 @@ function Cart() {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="fw-bold text-success m-0">Carrito de Compras</h1>
         <Button variant="outline-danger" size="sm" onClick={clearCart}>
-          🗑️ Vaciar Carrito
+          <i className="bi bi-trash me-1"></i> Vaciar Carrito
         </Button>
       </div>
 
@@ -97,12 +99,12 @@ function Cart() {
                   </td>
                   <td>
                     <Button
-                      variant="danger"
+                      variant="outline-danger"
                       size="sm"
                       onClick={() => removeFromCart(item.id)}
                       title="Eliminar producto"
                     >
-                      ✕
+                      <i className="bi bi-trash"></i>
                     </Button>
                   </td>
                 </tr>
@@ -112,7 +114,8 @@ function Cart() {
         </Card.Body>
       </Card>
 
-            <Row className="justify-content-end">
+      {/* Resumen de totales */}
+      <Row className="justify-content-end">
         <Col md={5} lg={4}>
           <Card className="border-0 shadow-sm p-4 bg-light">
             <h4 className="fw-bold text-dark mb-3">Resumen de Compra</h4>

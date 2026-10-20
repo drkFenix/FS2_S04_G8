@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Form, Button, Table, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { crearOrden } from '../data/db';
@@ -102,14 +102,15 @@ function Checkout() {
       <Row className="justify-content-center">
         <Col lg={10}>
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h1 className="fw-bold text-success m-0">Carrito de Compra / Checkout</h1>
+            <h1 className="fw-bold text-success m-0">Finalizar Compra</h1>
             <div className="bg-primary text-white px-4 py-2 rounded shadow-sm fw-bold fs-5">
-              Total a pagar: ${cartTotal.toLocaleString('es-CL')} CLP
+              Total: ${cartTotal.toLocaleString('es-CL')} CLP
             </div>
           </div>
 
-                    <Card className="border-0 shadow-sm mb-4">
-            <Card.Header className="bg-light fw-bold">Resumen de productos seleccionados</Card.Header>
+          {/* Resumen del pedido */}
+          <Card className="border-0 shadow-sm mb-4">
+            <Card.Header className="bg-light fw-bold">Resumen de productos</Card.Header>
             <Card.Body className="p-0">
               <Table responsive hover className="m-0 text-center align-middle">
                 <thead>
@@ -143,10 +144,11 @@ function Checkout() {
             </Card.Body>
           </Card>
 
-                    <Form onSubmit={handleSubmit}>
-                        <Card className="border-0 shadow-sm mb-4">
+          {/* Formulario de cliente y despacho */}
+          <Form onSubmit={handleSubmit}>
+            <Card className="border-0 shadow-sm mb-4">
               <Card.Header className="bg-light fw-bold">
-                Información del cliente
+                Información del Cliente
               </Card.Header>
               <Card.Body className="p-4">
                 <Row className="g-3">
@@ -193,9 +195,9 @@ function Checkout() {
               </Card.Body>
             </Card>
 
-                        <Card className="border-0 shadow-sm mb-4">
+            <Card className="border-0 shadow-sm mb-4">
               <Card.Header className="bg-light fw-bold">
-                Dirección de entrega de los productos
+                Dirección de Entrega
               </Card.Header>
               <Card.Body className="p-4">
                 <Row className="g-3">
@@ -207,7 +209,6 @@ function Checkout() {
                         name="calle"
                         value={formData.calle}
                         onChange={handleChange}
-                        placeholder="Ej: Los Crisantemos, Edificio Norte 123"
                         isInvalid={!!errores.calle}
                       />
                       <Form.Control.Feedback type="invalid">{errores.calle}</Form.Control.Feedback>
@@ -215,20 +216,23 @@ function Checkout() {
                   </Col>
                   <Col md={4}>
                     <Form.Group>
-                      <Form.Label>Departamento (opcional)</Form.Label>
+                      <Form.Label>Depto / Casa (opcional)</Form.Label>
                       <Form.Control
                         type="text"
                         name="departamento"
                         value={formData.departamento}
                         onChange={handleChange}
-                        placeholder="Ej: Depto 603"
                       />
                     </Form.Group>
                   </Col>
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label>Región</Form.Label>
-                      <Form.Select name="region" value={formData.region} onChange={handleChange}>
+                      <Form.Label>Región *</Form.Label>
+                      <Form.Select
+                        name="region"
+                        value={formData.region}
+                        onChange={handleChange}
+                      >
                         {REGIONES_CHILE.map((reg) => (
                           <option key={reg} value={reg}>{reg}</option>
                         ))}
@@ -237,8 +241,12 @@ function Checkout() {
                   </Col>
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label>Comuna</Form.Label>
-                      <Form.Select name="comuna" value={formData.comuna} onChange={handleChange}>
+                      <Form.Label>Comuna *</Form.Label>
+                      <Form.Select
+                        name="comuna"
+                        value={formData.comuna}
+                        onChange={handleChange}
+                      >
                         {(COMUNAS_POR_REGION[formData.region] || []).map((com) => (
                           <option key={com} value={com}>{com}</option>
                         ))}
@@ -262,18 +270,20 @@ function Checkout() {
               </Card.Body>
             </Card>
 
-                        <Card className="border-warning bg-warning-subtle mb-4">
+            {/* Selector de simulacion de pasarela */}
+            <Card className="border-secondary-subtle bg-light mb-4">
               <Card.Body className="py-2 px-3 d-flex justify-content-between align-items-center">
-                <span className="small text-dark">
-                  🛠️ <strong>Control de Evaluación:</strong> Simula el resultado del Webpay / Pasarela
+                <span className="small text-muted">
+                  <i className="bi bi-credit-card-2-front me-2"></i>
+                  <strong>Pasarela Webpay (Sandbox):</strong> Simular respuesta de pago
                 </span>
                 <Form.Check
                   type="switch"
                   id="switch-simular-error"
-                  label={simularError ? 'Simulando Pago Rechazado' : 'Simulando Pago Exitoso'}
+                  label={simularError ? 'Simular pago rechazado' : 'Simular pago aprobado'}
                   checked={simularError}
                   onChange={(e) => setSimularError(e.target.checked)}
-                  className="fw-bold"
+                  className="small"
                 />
               </Card.Body>
             </Card>
@@ -284,7 +294,7 @@ function Checkout() {
               size="lg"
               className="w-100 fw-bold py-3 shadow-sm"
             >
-              {simularError ? 'Simular Pago Fallido' : `Pagar ahora $${cartTotal.toLocaleString('es-CL')} CLP`}
+              {simularError ? 'Procesar pago (Simular rechazo)' : `Pagar ahora $${cartTotal.toLocaleString('es-CL')} CLP`}
             </Button>
           </Form>
         </Col>

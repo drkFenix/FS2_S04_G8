@@ -32,23 +32,29 @@ function Nosotros() {
       <Row className="g-4 text-center">
         <Col md={4}>
           <Card className="p-4 border-0 shadow-sm h-100">
-            <div className="display-4 mb-3">🌱</div>
+            <div className="mb-3">
+              <i className="bi bi-flower1 display-5 text-success"></i>
+            </div>
             <h5 className="fw-bold text-success">100% Orgánico</h5>
-            <p className="text-muted small">Cero pesticidas y cultivado de manera sostenible.</p>
+            <p className="text-muted small">Cero pesticidas y cultivado de manera limpia y sustentable.</p>
           </Card>
         </Col>
         <Col md={4}>
           <Card className="p-4 border-0 shadow-sm h-100">
-            <div className="display-4 mb-3">🚛</div>
-            <h5 className="fw-bold text-success">Despacho Veloz</h5>
-            <p className="text-muted small">Entregamos en menos de 24 horas desde la cosecha.</p>
+            <div className="mb-3">
+              <i className="bi bi-truck display-5 text-success"></i>
+            </div>
+            <h5 className="fw-bold text-success">Despacho Rápido</h5>
+            <p className="text-muted small">Entregamos en menos de 24 horas desde la cosecha en origen.</p>
           </Card>
         </Col>
         <Col md={4}>
           <Card className="p-4 border-0 shadow-sm h-100">
-            <div className="display-4 mb-3">🤝</div>
+            <div className="mb-3">
+              <i className="bi bi-people display-5 text-success"></i>
+            </div>
             <h5 className="fw-bold text-success">Comercio Justo</h5>
-            <p className="text-muted small">Apoyamos directamente a agricultores locales.</p>
+            <p className="text-muted small">Apoyo directo a agricultores locales sin intermediarios.</p>
           </Card>
         </Col>
       </Row>

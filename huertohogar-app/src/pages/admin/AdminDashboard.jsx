@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { obtenerProductos, obtenerOrdenes } from '../../data/db';
 
@@ -19,14 +19,14 @@ function AdminDashboard() {
   const stockCriticoCount = productos.filter((p) => p.stock > 0 && p.stock <= 50).length;
 
   const accesos = [
-    { titulo: 'Dashboard', desc: 'Visión general de todas las métricas y estadísticas clave del sistema.', ruta: '/admin', icono: '📊' },
-    { titulo: 'Órdenes', desc: 'Gestión y seguimiento de todas las órdenes de compra realizadas.', ruta: '/admin/ordenes', icono: '🧾' },
-    { titulo: 'Productos', desc: 'Administrar inventario, nuevos productos y stock crítico.', ruta: '/admin/productos', icono: '📦' },
-    { titulo: 'Categorías', desc: 'Organizar productos en categorías para facilitar su navegación.', ruta: '/categorias', icono: '🗂️' },
-    { titulo: 'Usuarios', desc: 'Gestión de cuentas de usuario y sus roles dentro del sistema.', ruta: '#', icono: '👥' },
-    { titulo: 'Reportes', desc: 'Generación de informes detallados sobre las operaciones del sistema.', ruta: '#', icono: '📈' },
-    { titulo: 'Perfil', desc: 'Administración de la información personal y configuraciones de cuenta.', ruta: '#', icono: '👤' },
-    { titulo: 'Tienda', desc: 'Visualiza tu tienda en tiempo real, visualiza los reportes de los usuarios.', ruta: '/', icono: '🏪' }
+    { titulo: 'Dashboard', desc: 'Métricas generales y estadísticas clave del sistema.', ruta: '/admin', icono: 'bi-speedometer2' },
+    { titulo: 'Órdenes', desc: 'Gestión y seguimiento de todas las compras realizadas.', ruta: '/admin/ordenes', icono: 'bi-receipt' },
+    { titulo: 'Productos', desc: 'Inventario, creación, edición y control de stock crítico.', ruta: '/admin/productos', icono: 'bi-box-seam' },
+    { titulo: 'Categorías', desc: 'Catálogo de categorías para organizar los productos.', ruta: '/categorias', icono: 'bi-grid' },
+    { titulo: 'Usuarios', desc: 'Cuentas de usuario registradas y permisos.', ruta: '#', icono: 'bi-people' },
+    { titulo: 'Reportes', desc: 'Reportes de ventas y desempeño del catálogo.', ruta: '#', icono: 'bi-graph-up' },
+    { titulo: 'Perfil', desc: 'Información y configuración de cuenta.', ruta: '#', icono: 'bi-person-circle' },
+    { titulo: 'Tienda', desc: 'Vista directa de la tienda pública.', ruta: '/', icono: 'bi-shop' }
   ];
 
   return (
@@ -34,14 +34,15 @@ function AdminDashboard() {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
           <h1 className="fw-bold text-dark m-0">Panel Administrativo</h1>
-          <p className="text-muted m-0">Resumen general de las actividades de HuertoHogar</p>
+          <p className="text-muted m-0">Resumen general y métricas de HuertoHogar</p>
         </div>
         <Link to="/" className="btn btn-outline-success">
-          🏪 Ver Tienda Pública
+          <i className="bi bi-shop me-1"></i> Ver Tienda
         </Link>
       </div>
 
-            <Row className="g-4 mb-5">
+      {/* Tarjetas de metricas principales */}
+      <Row className="g-4 mb-5">
         <Col md={4}>
           <Card className="border-0 shadow-sm text-white bg-primary p-3">
             <Card.Body className="d-flex align-items-center justify-content-between">
@@ -50,7 +51,7 @@ function AdminDashboard() {
                 <h2 className="fw-bold my-1">${totalVentas.toLocaleString('es-CL')}</h2>
                 <small className="text-white-50">{ordenes.length} órdenes registradas</small>
               </div>
-              <div className="display-4">🛒</div>
+              <i className="bi bi-cash-coin display-5 opacity-75"></i>
             </Card.Body>
           </Card>
         </Col>
@@ -62,10 +63,10 @@ function AdminDashboard() {
                 <span className="text-white-50 text-uppercase fw-semibold small">Productos Activos</span>
                 <h2 className="fw-bold my-1">{productos.length}</h2>
                 <small className="text-white-50">
-                  {stockCriticoCount > 0 ? `⚠️ ${stockCriticoCount} en stock crítico` : 'Inventario estable'}
+                  {stockCriticoCount > 0 ? `${stockCriticoCount} en stock crítico` : 'Inventario normal'}
                 </small>
               </div>
-              <div className="display-4">📦</div>
+              <i className="bi bi-boxes display-5 opacity-75"></i>
             </Card.Body>
           </Card>
         </Col>
@@ -76,20 +77,21 @@ function AdminDashboard() {
               <div>
                 <span className="text-white-50 text-uppercase fw-semibold small">Clientes Frecuentes</span>
                 <h2 className="fw-bold my-1">128</h2>
-                <small className="text-white-50">Comunidades de Santiago y regiones</small>
+                <small className="text-white-50">Clientes en RM y regiones</small>
               </div>
-              <div className="display-4">👥</div>
+              <i className="bi bi-people display-5 opacity-75"></i>
             </Card.Body>
           </Card>
         </Col>
       </Row>
 
-            <h3 className="fw-bold text-secondary mb-4">Módulos del Sistema</h3>
+      {/* Modulos del sistema */}
+      <h3 className="fw-bold text-secondary mb-4">Módulos del Sistema</h3>
       <Row className="g-4">
         {accesos.map((item, idx) => (
           <Col key={idx} xs={12} sm={6} lg={3}>
             <Card className="h-100 border-0 shadow-sm text-center p-3 hover-shadow transition">
-              <div className="fs-1 mb-2">{item.icono}</div>
+              <i className={`bi ${item.icono} fs-1 text-success mb-2`}></i>
               <h5 className="fw-bold text-dark">{item.titulo}</h5>
               <p className="text-muted small flex-grow-1">{item.desc}</p>
               {item.ruta !== '#' ? (

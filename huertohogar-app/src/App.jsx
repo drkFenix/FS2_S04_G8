@@ -30,7 +30,8 @@ function App() {
           <NavigationBar />
           <main className="flex-grow-1">
             <Routes>
-                            <Route path="/" element={<Home />} />
+              {/* Rutas publicas de la tienda */}
+              <Route path="/" element={<Home />} />
               <Route path="/categorias" element={<Categorias />} />
               <Route path="/ofertas" element={<Ofertas />} />
               <Route path="/producto/:id" element={<ProductDetail />} />
@@ -44,7 +45,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/registro" element={<Register />} />
 
-                            <Route path="/admin" element={<AdminDashboard />} />
+              {/* Modulo de administracion */}
+              <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/productos" element={<AdminProducts />} />
               <Route path="/admin/ordenes" element={<AdminOrders />} />
             </Routes>

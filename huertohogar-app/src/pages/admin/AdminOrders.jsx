@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Table, Button, Badge, Modal, Row, Col, Alert } from 'react-bootstrap';
+import { Container, Table, Button, Badge, Modal, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { obtenerOrdenes } from '../../data/db';
 
@@ -19,7 +19,7 @@ function AdminOrders() {
           <p className="text-muted m-0">Seguimiento de compras y despachos de clientes</p>
         </div>
         <Link to="/admin" className="btn btn-outline-secondary">
-          ← Volver al Dashboard
+          <i className="bi bi-arrow-left me-1"></i> Dashboard
         </Link>
       </div>
 
@@ -57,9 +57,9 @@ function AdminOrders() {
                   <td className="fw-bold text-success">${orden.total?.toLocaleString('es-CL')}</td>
                   <td>
                     {orden.estado === 'completada' ? (
-                      <Badge bg="success">Pagada / Exitosa</Badge>
+                      <Badge bg="success">Pagada</Badge>
                     ) : (
-                      <Badge bg="danger">Rechazada / Error</Badge>
+                      <Badge bg="danger">Rechazada</Badge>
                     )}
                   </td>
                   <td>
@@ -68,7 +68,7 @@ function AdminOrders() {
                       size="sm"
                       onClick={() => setOrdenSeleccionada(orden)}
                     >
-                      🧾 Ver Boleta
+                      <i className="bi bi-receipt me-1"></i> Ver Boleta
                     </Button>
                   </td>
                 </tr>
@@ -78,7 +78,8 @@ function AdminOrders() {
         </Table>
       </div>
 
-            <Modal show={!!ordenSeleccionada} onHide={() => setOrdenSeleccionada(null)} size="lg" centered>
+      {/* Modal visor de boleta electronica */}
+      <Modal show={!!ordenSeleccionada} onHide={() => setOrdenSeleccionada(null)} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title className="fw-bold text-success">
             Boleta Electrónica #{ordenSeleccionada?.numeroOrden}
@@ -142,7 +143,7 @@ function AdminOrders() {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={() => window.print()}>
-            🖨️ Imprimir
+            <i className="bi bi-printer me-1"></i> Imprimir
           </Button>
           <Button variant="secondary" onClick={() => setOrdenSeleccionada(null)}>
             Cerrar

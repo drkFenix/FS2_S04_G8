@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Navbar as BsNavbar, Nav, Container, Badge, Button } from 'react-bootstrap';
+import { Navbar as BsNavbar, Nav, Container, Badge } from 'react-bootstrap';
 import { useCart } from '../context/CartContext';
 
 function NavigationBar() {
@@ -26,28 +26,28 @@ function NavigationBar() {
           {esAdmin ? (
             <Nav className="me-auto ms-lg-4 gap-2">
               <Link to="/admin" className="nav-link fw-semibold text-secondary">
-                📊 Dashboard
+                <i className="bi bi-speedometer2 me-1"></i> Dashboard
               </Link>
               <Link to="/admin/productos" className="nav-link fw-semibold text-secondary">
-                📦 Gestión de Productos
+                <i className="bi bi-box-seam me-1"></i> Productos
               </Link>
               <Link to="/admin/ordenes" className="nav-link fw-semibold text-secondary">
-                🧾 Órdenes y Boletas
+                <i className="bi bi-receipt me-1"></i> Órdenes y Boletas
               </Link>
               <Link to="/" className="nav-link fw-semibold text-success">
-                🏪 Ir a la Tienda
+                <i className="bi bi-shop me-1"></i> Ir a la Tienda
               </Link>
             </Nav>
           ) : (
             <Nav className="me-auto ms-lg-4 gap-1">
               <Link to="/" className="nav-link fw-semibold text-dark">
-                Home
+                Inicio
               </Link>
               <Link to="/categorias" className="nav-link fw-semibold text-dark">
                 Categorías
               </Link>
               <Link to="/ofertas" className="nav-link fw-semibold text-danger">
-                🔥 Ofertas
+                Ofertas
               </Link>
               <Link to="/nosotros" className="nav-link fw-semibold text-dark">
                 Nosotros
@@ -58,8 +58,8 @@ function NavigationBar() {
               <Link to="/contacto" className="nav-link fw-semibold text-dark">
                 Contacto
               </Link>
-              <Link to="/admin" className="nav-link fw-semibold text-primary">
-                ⚙️ Admin
+              <Link to="/admin" className="nav-link fw-semibold text-secondary">
+                <i className="bi bi-gear me-1"></i> Admin
               </Link>
             </Nav>
           )}
@@ -67,7 +67,8 @@ function NavigationBar() {
           <div className="d-flex align-items-center gap-2 mt-3 mt-lg-0">
             {!esAdmin && (
               <Link to="/carrito" className="btn btn-success d-flex align-items-center gap-2 shadow-sm">
-                <span>🛒 Carrito</span>
+                <i className="bi bi-cart3"></i>
+                <span>Carrito</span>
                 <Badge bg="light" text="dark" className="rounded-pill">
                   {cartCount}
                 </Badge>

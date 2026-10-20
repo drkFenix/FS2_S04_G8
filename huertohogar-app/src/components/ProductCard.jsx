@@ -93,7 +93,7 @@ function ProductCard({ producto }) {
                 onChange={(e) => setCantidad(Math.max(1, parseInt(e.target.value) || 1))}
               />
               <Button variant="success" onClick={handleAgregar}>
-                🛒 Agregar
+                <i className="bi bi-cart-plus me-1"></i> Agregar
               </Button>
             </InputGroup>
           )}

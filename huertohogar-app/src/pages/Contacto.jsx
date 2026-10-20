@@ -31,7 +31,8 @@ function Contacto() {
 
           {enviado && (
             <Alert variant="success" dismissible onClose={() => setEnviado(false)}>
-              ✅ ¡Mensaje enviado con éxito! Nuestro equipo de atención te responderá a la brevedad.
+              <i className="bi bi-check-circle me-2"></i>
+              Mensaje enviado con éxito. Nuestro equipo te responderá a la brevedad.
             </Alert>
           )}
 
@@ -82,8 +83,8 @@ function Contacto() {
                     />
                   </Form.Group>
                 </Col>
-                <Col md={12}>
-                  <Button type="submit" variant="success" size="lg" className="w-100 fw-bold">
+                <Col md={12} className="text-end">
+                  <Button variant="success" type="submit" size="lg" className="px-4">
                     Enviar Mensaje
                   </Button>
                 </Col>

@@ -35,12 +35,10 @@ function ProductDetail() {
     setTimeout(() => setAlerta(null), 3500);
   };
 
-  const precioFinal = producto.enOferta && producto.precioOferta ? producto.precioOferta : producto.precio;
-
   return (
     <Container className="py-5">
       <Button variant="outline-secondary" size="sm" onClick={() => navigate(-1)} className="mb-4">
-        ← Volver
+        <i className="bi bi-arrow-left me-1"></i> Volver
       </Button>
 
       {alerta && (
@@ -55,7 +53,7 @@ function ProductDetail() {
             <div className="position-relative bg-light rounded p-3 text-center">
               {producto.enOferta && (
                 <Badge bg="warning" text="dark" className="position-absolute top-0 start-0 m-3 px-3 py-2 fs-6">
-                  🔥 OFERTA ESPECIAL
+                  Oferta Especial
                 </Badge>
               )}
               <img
@@ -103,15 +101,15 @@ function ProductDetail() {
                 <strong>Disponibilidad:</strong>
                 {producto.stock > 0 ? (
                   <span className="text-success fw-bold">
-                    ✓ En Stock ({producto.stock} {producto.unidad}s disponibles)
+                    Disponible ({producto.stock} {producto.unidad}s en inventario)
                   </span>
                 ) : (
-                  <span className="text-danger fw-bold">✗ Agotado</span>
+                  <span className="text-danger fw-bold">Agotado</span>
                 )}
               </div>
               <div className="d-flex justify-content-between">
                 <strong>Origen:</strong>
-                <span className="text-muted">Agricultura limpia y local de Chile</span>
+                <span className="text-muted">Agricultura local de Chile</span>
               </div>
             </div>
 
@@ -129,7 +127,7 @@ function ProductDetail() {
                 </InputGroup>
 
                 <Button variant="success" size="lg" className="flex-grow-1" onClick={handleAgregar}>
-                  🛒 Agregar al Carrito
+                  <i className="bi bi-cart-plus me-1"></i> Agregar al Carrito
                 </Button>
               </div>
             )}

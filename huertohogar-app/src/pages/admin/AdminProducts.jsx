@@ -70,40 +70,47 @@ function AdminProducts() {
     setShowModal(true);
   };
 
-  const handleEliminar = (id, nombre) => {
-    if (window.confirm(`¿Estás seguro de eliminar "${nombre}" del catálogo?`)) {
-      eliminarProducto(id);
-      cargarDatos();
-      setMensaje({ tipo: 'success', texto: `Producto "${nombre}" eliminado correctamente.` });
-      setTimeout(() => setMensaje(null), 3000);
-    }
-  };
-
-  const handleGuardar = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.nombre.trim()) {
-      alert('El nombre del producto es obligatorio.');
+      setMensaje({ tipo: 'danger', texto: 'El nombre del producto es obligatorio.' });
       return;
     }
 
+    const payload = {
+      ...formData,
+      precio: Number(formData.precio),
+      stock: Number(formData.stock),
+      precioOferta: formData.enOferta ? Number(formData.precioOferta) : null
+    };
+
     if (productoEditando) {
-      actualizarProducto(productoEditando.id, formData);
-      setMensaje({ tipo: 'success', texto: `Producto "${formData.nombre}" actualizado correctamente.` });
+      actualizarProducto(productoEditando.id, payload);
+      setMensaje({ tipo: 'success', texto: `Producto "${payload.nombre}" actualizado correctamente.` });
     } else {
-      crearProducto(formData);
-      setMensaje({ tipo: 'success', texto: `Nuevo producto "${formData.nombre}" creado exitosamente.` });
+      crearProducto(payload);
+      setMensaje({ tipo: 'success', texto: `Producto "${payload.nombre}" creado exitosamente.` });
     }
 
     setShowModal(false);
     cargarDatos();
-    setTimeout(() => setMensaje(null), 3000);
+  };
+
+  const handleEliminar = (id, nombre) => {
+    if (window.confirm(`¿Estás seguro de eliminar el producto "${nombre}"?`)) {
+      eliminarProducto(id);
+      setMensaje({ tipo: 'warning', texto: `Producto "${nombre}" eliminado del inventario.` });
+      cargarDatos();
+    }
   };
 
   const productosFiltrados = productos.filter((p) => {
     const coincideTexto =
       p.nombre.toLowerCase().includes(filtro.toLowerCase()) ||
       p.categoria.toLowerCase().includes(filtro.toLowerCase());
+
     const coincideCritico = soloCriticos ? p.stock > 0 && p.stock <= 50 : true;
+
     return coincideTexto && coincideCritico;
   });
 
@@ -111,15 +118,15 @@ function AdminProducts() {
     <Container className="py-5">
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
-          <h1 className="fw-bold text-dark m-0">Gestión de Inventario y Productos</h1>
-          <p className="text-muted m-0">Operaciones CRUD con persistencia en tiempo real</p>
+          <h1 className="fw-bold text-dark m-0">Gestión de Productos</h1>
+          <p className="text-muted m-0">Administración de inventario, stock y catálogo</p>
         </div>
         <div className="d-flex gap-2">
           <Link to="/admin" className="btn btn-outline-secondary">
-            ← Volver al Dashboard
+            <i className="bi bi-arrow-left me-1"></i> Dashboard
           </Link>
           <Button variant="success" onClick={abrirModalCrear}>
-            + Nuevo Producto
+            <i className="bi bi-plus-lg me-1"></i> Nuevo Producto
           </Button>
         </div>
       </div>
@@ -130,10 +137,11 @@ function AdminProducts() {
         </Alert>
       )}
 
-            <Row className="mb-4 g-2 align-items-center">
+      {/* Buscador y filtro de stock */}
+      <Row className="mb-4 g-2 align-items-center">
         <Col md={6}>
           <InputGroup>
-            <InputGroup.Text>🔍</InputGroup.Text>
+            <InputGroup.Text><i className="bi bi-search"></i></InputGroup.Text>
             <Form.Control
               placeholder="Buscar por nombre o categoría..."
               value={filtro}
@@ -145,7 +153,7 @@ function AdminProducts() {
           <Form.Check
             type="switch"
             id="filtro-critico"
-            label="⚠️ Mostrar solo Stock Crítico (≤ 50 unidades)"
+            label="Mostrar solo Stock Crítico (≤ 50 unidades)"
             checked={soloCriticos}
             onChange={(e) => setSoloCriticos(e.target.checked)}
             className="d-inline-block fw-bold text-danger"
@@ -153,7 +161,8 @@ function AdminProducts() {
         </Col>
       </Row>
 
-            <div className="card border-0 shadow-sm">
+      {/* Tabla de productos */}
+      <div className="card border-0 shadow-sm">
         <Table responsive hover className="m-0 align-middle text-center">
           <thead className="table-light">
             <tr>
@@ -218,7 +227,7 @@ function AdminProducts() {
                     </td>
                     <td>
                       {p.enOferta ? (
-                        <Badge bg="warning" text="dark">🔥 En Oferta</Badge>
+                        <Badge bg="warning" text="dark">En Oferta</Badge>
                       ) : (
                         <span className="text-muted small">Normal</span>
                       )}
@@ -230,14 +239,14 @@ function AdminProducts() {
                           size="sm"
                           onClick={() => abrirModalEditar(p)}
                         >
-                          ✏️ Editar
+                          <i className="bi bi-pencil me-1"></i> Editar
                         </Button>
                         <Button
                           variant="outline-danger"
                           size="sm"
                           onClick={() => handleEliminar(p.id, p.nombre)}
                         >
-                          🗑️ Eliminar
+                          <i className="bi bi-trash me-1"></i> Eliminar
                         </Button>
                       </div>
                     </td>
@@ -249,13 +258,14 @@ function AdminProducts() {
         </Table>
       </div>
 
-            <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title className="fw-bold text-success">
-            {productoEditando ? `Editar: ${productoEditando.nombre}` : 'Crear Nuevo Producto'}
-          </Modal.Title>
-        </Modal.Header>
-        <Form onSubmit={handleGuardar}>
+      {/* Modal para crear o editar producto */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" centered>
+        <Form onSubmit={handleSubmit}>
+          <Modal.Header closeButton>
+            <Modal.Title className="fw-bold">
+              {productoEditando ? 'Editar Producto' : 'Nuevo Producto'}
+            </Modal.Title>
+          </Modal.Header>
           <Modal.Body className="p-4">
             <Row className="g-3">
               <Col md={8}>
@@ -276,8 +286,8 @@ function AdminProducts() {
                     value={formData.categoria}
                     onChange={(e) => setFormData({ ...formData, categoria: e.target.value })}
                   >
-                    {CATEGORIAS_VALIDAS.map((cat) => (
-                      <option key={cat} value={cat}>{cat}</option>
+                    {CATEGORIAS_VALIDAS.map((c) => (
+                      <option key={c} value={c}>{c}</option>
                     ))}
                   </Form.Select>
                 </Form.Group>
@@ -296,7 +306,7 @@ function AdminProducts() {
               </Col>
               <Col md={4}>
                 <Form.Group>
-                  <Form.Label>Stock Disponible *</Form.Label>
+                  <Form.Label>Stock Inicial *</Form.Label>
                   <Form.Control
                     type="number"
                     min="0"
@@ -342,7 +352,7 @@ function AdminProducts() {
                 <Form.Check
                   type="switch"
                   id="switch-oferta"
-                  label="🔥 Activar Oferta con Descuento"
+                  label="Activar Oferta con Descuento"
                   checked={formData.enOferta}
                   onChange={(e) => setFormData({ ...formData, enOferta: e.target.checked })}
                   className="mt-3 fw-bold"
