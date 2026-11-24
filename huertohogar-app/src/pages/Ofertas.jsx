@@ -1,16 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import ProductCard from '../components/ProductCard';
-import { obtenerProductos } from '../data/db';
+import { productService } from '../services/productService';
+import { getErrorMessage } from '../utils/getErrorMessage';
 
 function Ofertas() {
-  const [productos, setProductos] = useState([]);
+  const [ofertas, setOfertas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    setProductos(obtenerProductos());
+    let active = true;
+    productService
+      .list({ enOferta: true })
+      .then((data) => {
+        if (active) setOfertas(data);
+      })
+      .catch((err) => {
+        if (active) setError(getErrorMessage(err));
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+    };
   }, []);
-
-  const ofertas = productos.filter((p) => p.enOferta);
 
   return (
     <Container className="py-5">
@@ -29,7 +44,13 @@ function Ofertas() {
         <strong>Promoción especial:</strong> Descuentos exclusivos hasta agotar stock disponible.
       </Alert>
 
-      {ofertas.length === 0 ? (
+      {error && <Alert variant="danger" role="alert">{error}</Alert>}
+
+      {loading ? (
+        <div className="text-center py-5">
+          <Spinner animation="border" variant="success" />
+        </div>
+      ) : ofertas.length === 0 ? (
         <div className="text-center py-5">
           <h4>Actualmente no hay ofertas vigentes.</h4>
           <p className="text-muted">Vuelve pronto para conocer nuestras próximas promociones.</p>

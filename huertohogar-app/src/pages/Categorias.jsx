@@ -1,32 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Nav, Card } from 'react-bootstrap';
+import { Container, Row, Col, Nav, Card, Alert, Spinner } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { obtenerProductos } from '../data/db';
-
-const CATEGORIAS_LISTA = [
-  'Todas',
-  'Frutas Frescas',
-  'Verduras Orgánicas',
-  'Productos Orgánicos',
-  'Productos Lácteos'
-];
+import { productService } from '../services/productService';
+import { categoryService } from '../services/categoryService';
+import { getErrorMessage } from '../utils/getErrorMessage';
 
 function Categorias() {
   const [searchParams, setSearchParams] = useSearchParams();
   const categoriaURL = searchParams.get('cat') || 'Todas';
   const [categoriaActiva, setCategoriaActiva] = useState(categoriaURL);
+  const [categorias, setCategorias] = useState([]);
   const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    setProductos(obtenerProductos());
+    let active = true;
+    setLoading(true);
+    setError('');
+    Promise.all([categoryService.list(), productService.list()])
+      .then(([cats, prods]) => {
+        if (!active) return;
+        setCategorias(cats);
+        setProductos(prods);
+      })
+      .catch((err) => {
+        if (active) setError(getErrorMessage(err));
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+    };
   }, []);
 
   useEffect(() => {
-    if (categoriaURL && CATEGORIAS_LISTA.includes(categoriaURL)) {
-      setCategoriaActiva(categoriaURL);
-    }
+    setCategoriaActiva(categoriaURL);
   }, [categoriaURL]);
+
+  const nombresCategorias = ['Todas', ...categorias.map((c) => c.nombre)];
 
   const handleSeleccionarCategoria = (cat) => {
     setCategoriaActiva(cat);
@@ -51,9 +65,10 @@ function Categorias() {
         </p>
       </div>
 
-      {/* Filtros de navegacion por categoria */}
+      {error && <Alert variant="danger" role="alert">{error}</Alert>}
+
       <Nav variant="pills" className="justify-content-center gap-2 mb-5 flex-wrap">
-        {CATEGORIAS_LISTA.map((cat) => (
+        {nombresCategorias.map((cat) => (
           <Nav.Item key={cat}>
             <Nav.Link
               active={categoriaActiva === cat}
@@ -71,8 +86,11 @@ function Categorias() {
         ))}
       </Nav>
 
-      {/* Grilla de productos */}
-      {productosFiltrados.length === 0 ? (
+      {loading ? (
+        <div className="text-center py-5">
+          <Spinner animation="border" variant="success" />
+        </div>
+      ) : productosFiltrados.length === 0 ? (
         <Card className="text-center p-5 border-0 shadow-sm">
           <h4>No hay productos disponibles en esta categoría</h4>
         </Card>
