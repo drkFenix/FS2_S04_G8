@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Container, Card, Table, Button, Row, Col, Alert } from 'react-bootstrap';
 
@@ -7,19 +7,18 @@ function FailedPurchase() {
   const navigate = useNavigate();
   const orden = location.state?.orden;
 
-  const [numeroOrden] = useState(() => orden?.numeroOrden || Math.floor(10000000 + Math.random() * 90000000));
-  const cliente = orden?.cliente || {
-    nombre: 'Pedro',
-    apellidos: 'Hacker',
-    correo: 'pedro.hacker20@example.com',
-    calle: 'Los Crisantemos, Edificio Norte',
-    departamento: 'Depto 603',
-    region: 'Región Metropolitana de Santiago',
-    comuna: 'Cerrillos',
-    indicaciones: 'El martes no estaremos en el depto, pero puede dejárselo con el conserje.'
-  };
-  const items = orden?.items || [];
-  const total = orden?.total || 0;
+  if (!orden) {
+    return (
+      <Container className="py-5 text-center">
+        <h2>No hay información de un pago rechazado reciente</h2>
+        <Link to="/carrito" className="btn btn-success mt-3">
+          Volver al Carrito
+        </Link>
+      </Container>
+    );
+  }
+
+  const { numeroOrden, cliente, items = [], total = 0 } = orden;
 
   return (
     <Container className="py-5">
@@ -30,7 +29,7 @@ function FailedPurchase() {
             <div>
               <h3 className="fw-bold mb-1">No se pudo procesar el pago - Orden #{numeroOrden}</h3>
               <p className="mb-0 text-secondary">
-                La transacción fue rechazada por la entidad bancaria o hubo un problema de conexión. No se ha realizado ningún cobro a tu tarjeta.
+                La transacción fue rechazada por la entidad bancaria. No se descontó stock ni se realizó cobro.
               </p>
             </div>
           </Alert>
@@ -52,41 +51,37 @@ function FailedPurchase() {
               <Row className="g-3">
                 <Col sm={4}>
                   <strong className="d-block text-secondary small">Nombre:</strong>
-                  <span>{cliente.nombre}</span>
+                  <span>{cliente?.nombre}</span>
                 </Col>
                 <Col sm={4}>
                   <strong className="d-block text-secondary small">Apellidos:</strong>
-                  <span>{cliente.apellidos}</span>
+                  <span>{cliente?.apellidos}</span>
                 </Col>
                 <Col sm={4}>
                   <strong className="d-block text-secondary small">Correo:</strong>
-                  <span>{cliente.correo}</span>
+                  <span>{cliente?.correo}</span>
                 </Col>
                 <Col sm={6}>
                   <strong className="d-block text-secondary small">Dirección:</strong>
-                  <span>{cliente.calle} {cliente.departamento && `(${cliente.departamento})`}</span>
+                  <span>
+                    {cliente?.calle} {cliente?.departamento && `(${cliente.departamento})`}
+                  </span>
                 </Col>
                 <Col sm={3}>
                   <strong className="d-block text-secondary small">Comuna:</strong>
-                  <span>{cliente.comuna}</span>
+                  <span>{cliente?.comuna}</span>
                 </Col>
                 <Col sm={3}>
                   <strong className="d-block text-secondary small">Región:</strong>
-                  <span>{cliente.region}</span>
+                  <span>{cliente?.region}</span>
                 </Col>
-                {cliente.indicaciones && (
-                  <Col sm={12}>
-                    <strong className="d-block text-secondary small">Indicaciones de entrega:</strong>
-                    <span className="fst-italic text-muted">{cliente.indicaciones}</span>
-                  </Col>
-                )}
               </Row>
             </Card.Body>
           </Card>
 
           {items.length > 0 && (
             <Card className="border-0 shadow-sm mb-4">
-              <Card.Header className="bg-light fw-bold">Productos en el Carrito</Card.Header>
+              <Card.Header className="bg-light fw-bold">Productos del Intento</Card.Header>
               <Card.Body className="p-0">
                 <Table responsive className="m-0 text-center align-middle">
                   <thead>
@@ -103,16 +98,16 @@ function FailedPurchase() {
                       <tr key={item.id}>
                         <td>
                           <img
-                            src={item.imagen}
+                            src={item.imagen || '/assets/logo.png'}
                             alt={item.nombre}
                             style={{ width: '40px', height: '40px', objectFit: 'cover' }}
                             className="rounded"
                           />
                         </td>
                         <td className="text-start fw-bold">{item.nombre}</td>
-                        <td>${item.precio.toLocaleString('es-CL')}</td>
+                        <td>${item.precio?.toLocaleString('es-CL')}</td>
                         <td>{item.cantidad}</td>
-                        <td className="fw-bold">${(item.precio * item.cantidad).toLocaleString('es-CL')}</td>
+                        <td className="fw-bold">${item.subtotal?.toLocaleString('es-CL')}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -121,13 +116,11 @@ function FailedPurchase() {
             </Card>
           )}
 
-          {total > 0 && (
-            <div className="text-center p-3 bg-light rounded shadow-sm mb-4">
-              <h4 className="fw-bold text-dark m-0">
-                Total pendiente de pago: ${total.toLocaleString('es-CL')} CLP
-              </h4>
-            </div>
-          )}
+          <div className="text-center p-3 bg-light rounded shadow-sm mb-4">
+            <h4 className="fw-bold text-dark m-0">
+              Total pendiente de pago: ${total.toLocaleString('es-CL')} CLP
+            </h4>
+          </div>
 
           <div className="text-center">
             <Link to="/carrito" className="btn btn-outline-secondary me-2">

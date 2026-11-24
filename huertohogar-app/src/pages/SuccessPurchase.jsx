@@ -34,7 +34,7 @@ function SuccessPurchase() {
             <div>
               <h3 className="fw-bold mb-1">Compra confirmada - Orden #{numeroOrden}</h3>
               <p className="mb-0 text-secondary">
-                Tu pedido ha sido recibido con éxito y está siendo preparado para despacho.
+                Tu pedido ha sido recibido con éxito{fecha ? ` el ${new Date(fecha).toLocaleString('es-CL')}` : ''} y está siendo preparado para despacho.
               </p>
             </div>
           </Alert>
@@ -97,7 +97,7 @@ function SuccessPurchase() {
                     <tr key={item.id}>
                       <td>
                         <img
-                          src={item.imagen}
+                          src={item.imagen || '/assets/logo.png'}
                           alt={item.nombre}
                           style={{ width: '40px', height: '40px', objectFit: 'cover' }}
                           className="rounded"

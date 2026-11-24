@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Card, Form, Button, Table } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card, Form, Button, Table, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { crearOrden } from '../data/db';
+import { useAuth } from '../context/AuthContext';
+import { orderService } from '../services/orderService';
+import { getErrorMessage } from '../utils/getErrorMessage';
 
 const REGIONES_CHILE = [
   'Región Metropolitana de Santiago',
@@ -10,35 +12,68 @@ const REGIONES_CHILE = [
   'Región del Biobío',
   'Región de Los Lagos',
   'Región de La Araucanía',
-  'Región del Maule'
+  'Región del Maule',
 ];
 
 const COMUNAS_POR_REGION = {
-  'Región Metropolitana de Santiago': ['Santiago Centro', 'Cerrillos', 'Providencia', 'Las Condes', 'Maipú', 'Ñuñoa', 'La Florida'],
+  'Región Metropolitana de Santiago': [
+    'Santiago Centro',
+    'Cerrillos',
+    'Providencia',
+    'Las Condes',
+    'Maipú',
+    'Ñuñoa',
+    'La Florida',
+  ],
   'Región de Valparaíso': ['Viña del Mar', 'Valparaíso', 'Quilpué', 'Villa Alemana', 'Concón'],
   'Región del Biobío': ['Concepción', 'Talcahuano', 'San Pedro de la Paz', 'Nacimiento'],
   'Región de Los Lagos': ['Puerto Montt', 'Puerto Varas', 'Osorno', 'Castro'],
   'Región de La Araucanía': ['Temuco', 'Villarrica', 'Pucón'],
-  'Región del Maule': ['Talca', 'Curicó', 'Linares']
+  'Región del Maule': ['Talca', 'Curicó', 'Linares'],
 };
 
 function Checkout() {
   const { cart, cartTotal, clearCart } = useCart();
+  const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    nombre: 'Pedro',
-    apellidos: 'Hacker',
-    correo: 'pedro.hacker20@example.com',
-    calle: 'Los Crisantemos, Edificio Norte',
-    departamento: 'Depto 603',
+    nombre: '',
+    apellidos: '',
+    correo: '',
+    calle: '',
+    departamento: '',
     region: 'Región Metropolitana de Santiago',
-    comuna: 'Cerrillos',
-    indicaciones: 'El martes no estaremos en el depto, pero puede dejárselo con el conserje.'
+    comuna: 'Santiago Centro',
+    indicaciones: '',
   });
 
   const [simularError, setSimularError] = useState(false);
   const [errores, setErrores] = useState({});
+  const [apiError, setApiError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  // Autocompletar solo cuando existe una sesion real iniciada
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const regionValida = REGIONES_CHILE.includes(user.region)
+        ? user.region
+        : 'Región Metropolitana de Santiago';
+      const comunas = COMUNAS_POR_REGION[regionValida] || [];
+      const comunaValida = comunas.includes(user.comuna) ? user.comuna : comunas[0] || '';
+
+      setFormData((prev) => ({
+        ...prev,
+        nombre: user.nombre || prev.nombre,
+        apellidos: user.apellidos || prev.apellidos,
+        correo: user.correo || prev.correo,
+        calle: user.calle || prev.calle,
+        departamento: user.departamento || prev.departamento,
+        region: regionValida,
+        comuna: comunaValida,
+      }));
+    }
+  }, [isAuthenticated, user]);
 
   if (cart.length === 0) {
     return (
@@ -56,7 +91,7 @@ function Checkout() {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-      ...(name === 'region' && { comuna: COMUNAS_POR_REGION[value]?.[0] || '' })
+      ...(name === 'region' && { comuna: COMUNAS_POR_REGION[value]?.[0] || '' }),
     }));
   };
 
@@ -69,31 +104,43 @@ function Checkout() {
     return err;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validarFormulario();
+    setErrores(validationErrors);
     if (Object.keys(validationErrors).length > 0) {
-      setErrores(validationErrors);
       return;
     }
 
-    if (simularError) {
-      const ordenFallida = crearOrden({
-        cliente: formData,
-        items: cart,
-        total: cartTotal,
-        estado: 'fallida'
+    setSubmitting(true);
+    setApiError('');
+    try {
+      const ordenCreada = await orderService.create({
+        nombre: formData.nombre.trim(),
+        apellidos: formData.apellidos.trim(),
+        correo: formData.correo.trim(),
+        calle: formData.calle.trim(),
+        departamento: formData.departamento.trim(),
+        region: formData.region,
+        comuna: formData.comuna,
+        indicaciones: formData.indicaciones.trim(),
+        simularRechazo: simularError,
+        items: cart.map((item) => ({
+          productoId: item.id,
+          cantidad: item.cantidad,
+        })),
       });
-      navigate('/compra-fallida', { state: { orden: ordenFallida } });
-    } else {
-      const ordenExitosa = crearOrden({
-        cliente: formData,
-        items: cart,
-        total: cartTotal,
-        estado: 'completada'
-      });
-      clearCart();
-      navigate('/compra-exitosa', { state: { orden: ordenExitosa } });
+
+      if (ordenCreada.estado === 'RECHAZADA') {
+        navigate('/compra-fallida', { state: { orden: ordenCreada } });
+      } else {
+        clearCart();
+        navigate('/compra-exitosa', { state: { orden: ordenCreada } });
+      }
+    } catch (err) {
+      setApiError(getErrorMessage(err));
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -101,14 +148,26 @@ function Checkout() {
     <Container className="py-5">
       <Row className="justify-content-center">
         <Col lg={10}>
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h1 className="fw-bold text-success m-0">Finalizar Compra</h1>
+          <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+              <h1 className="fw-bold text-success m-0">Finalizar Compra</h1>
+              {isAuthenticated && (
+                <small className="text-muted">
+                  Datos precargados automáticamente desde tu sesión ({user.correo})
+                </small>
+              )}
+            </div>
             <div className="bg-primary text-white px-4 py-2 rounded shadow-sm fw-bold fs-5">
               Total: ${cartTotal.toLocaleString('es-CL')} CLP
             </div>
           </div>
 
-          {/* Resumen del pedido */}
+          {apiError && (
+            <Alert variant="danger" role="alert" className="mb-4">
+              {apiError}
+            </Alert>
+          )}
+
           <Card className="border-0 shadow-sm mb-4">
             <Card.Header className="bg-light fw-bold">Resumen de productos</Card.Header>
             <Card.Body className="p-0">
@@ -144,18 +203,16 @@ function Checkout() {
             </Card.Body>
           </Card>
 
-          {/* Formulario de cliente y despacho */}
           <Form onSubmit={handleSubmit}>
             <Card className="border-0 shadow-sm mb-4">
-              <Card.Header className="bg-light fw-bold">
-                Información del Cliente
-              </Card.Header>
+              <Card.Header className="bg-light fw-bold">Información del Cliente</Card.Header>
               <Card.Body className="p-4">
                 <Row className="g-3">
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label>Nombre *</Form.Label>
+                      <Form.Label htmlFor="chk-nombre">Nombre *</Form.Label>
                       <Form.Control
+                        id="chk-nombre"
                         type="text"
                         name="nombre"
                         value={formData.nombre}
@@ -167,8 +224,9 @@ function Checkout() {
                   </Col>
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label>Apellidos *</Form.Label>
+                      <Form.Label htmlFor="chk-apellidos">Apellidos *</Form.Label>
                       <Form.Control
+                        id="chk-apellidos"
                         type="text"
                         name="apellidos"
                         value={formData.apellidos}
@@ -180,8 +238,9 @@ function Checkout() {
                   </Col>
                   <Col md={12}>
                     <Form.Group>
-                      <Form.Label>Correo Electrónico *</Form.Label>
+                      <Form.Label htmlFor="chk-correo">Correo Electrónico *</Form.Label>
                       <Form.Control
+                        id="chk-correo"
                         type="email"
                         name="correo"
                         value={formData.correo}
@@ -196,15 +255,14 @@ function Checkout() {
             </Card>
 
             <Card className="border-0 shadow-sm mb-4">
-              <Card.Header className="bg-light fw-bold">
-                Dirección de Entrega
-              </Card.Header>
+              <Card.Header className="bg-light fw-bold">Dirección de Entrega</Card.Header>
               <Card.Body className="p-4">
                 <Row className="g-3">
                   <Col md={8}>
                     <Form.Group>
-                      <Form.Label>Calle y Número *</Form.Label>
+                      <Form.Label htmlFor="chk-calle">Calle y Número *</Form.Label>
                       <Form.Control
+                        id="chk-calle"
                         type="text"
                         name="calle"
                         value={formData.calle}
@@ -216,8 +274,9 @@ function Checkout() {
                   </Col>
                   <Col md={4}>
                     <Form.Group>
-                      <Form.Label>Depto / Casa (opcional)</Form.Label>
+                      <Form.Label htmlFor="chk-depto">Depto / Casa (opcional)</Form.Label>
                       <Form.Control
+                        id="chk-depto"
                         type="text"
                         name="departamento"
                         value={formData.departamento}
@@ -227,42 +286,39 @@ function Checkout() {
                   </Col>
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label>Región *</Form.Label>
-                      <Form.Select
-                        name="region"
-                        value={formData.region}
-                        onChange={handleChange}
-                      >
+                      <Form.Label htmlFor="chk-region">Región *</Form.Label>
+                      <Form.Select id="chk-region" name="region" value={formData.region} onChange={handleChange}>
                         {REGIONES_CHILE.map((reg) => (
-                          <option key={reg} value={reg}>{reg}</option>
+                          <option key={reg} value={reg}>
+                            {reg}
+                          </option>
                         ))}
                       </Form.Select>
                     </Form.Group>
                   </Col>
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label>Comuna *</Form.Label>
-                      <Form.Select
-                        name="comuna"
-                        value={formData.comuna}
-                        onChange={handleChange}
-                      >
+                      <Form.Label htmlFor="chk-comuna">Comuna *</Form.Label>
+                      <Form.Select id="chk-comuna" name="comuna" value={formData.comuna} onChange={handleChange}>
                         {(COMUNAS_POR_REGION[formData.region] || []).map((com) => (
-                          <option key={com} value={com}>{com}</option>
+                          <option key={com} value={com}>
+                            {com}
+                          </option>
                         ))}
                       </Form.Select>
                     </Form.Group>
                   </Col>
                   <Col md={12}>
                     <Form.Group>
-                      <Form.Label>Indicaciones para la entrega (opcional)</Form.Label>
+                      <Form.Label htmlFor="chk-indicaciones">Indicaciones para la entrega (opcional)</Form.Label>
                       <Form.Control
+                        id="chk-indicaciones"
                         as="textarea"
                         rows={2}
                         name="indicaciones"
                         value={formData.indicaciones}
                         onChange={handleChange}
-                        placeholder="Ej: Dejar con conserjería si no hay nadie..."
+                        placeholder="Ej: Dejar en conserjería si no hay nadie..."
                       />
                     </Form.Group>
                   </Col>
@@ -270,7 +326,6 @@ function Checkout() {
               </Card.Body>
             </Card>
 
-            {/* Selector de simulacion de pasarela */}
             <Card className="border-secondary-subtle bg-light mb-4">
               <Card.Body className="py-2 px-3 d-flex justify-content-between align-items-center">
                 <span className="small text-muted">
@@ -293,8 +348,13 @@ function Checkout() {
               variant={simularError ? 'danger' : 'success'}
               size="lg"
               className="w-100 fw-bold py-3 shadow-sm"
+              disabled={submitting}
             >
-              {simularError ? 'Procesar pago (Simular rechazo)' : `Pagar ahora $${cartTotal.toLocaleString('es-CL')} CLP`}
+              {submitting
+                ? 'Procesando orden en el servidor...'
+                : simularError
+                  ? 'Procesar pago (Simular rechazo)'
+                  : `Pagar ahora $${cartTotal.toLocaleString('es-CL')} CLP`}
             </Button>
           </Form>
         </Col>
