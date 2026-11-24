@@ -1,77 +1,51 @@
-# HuertoHogar - DSY1104 Desarrollo Full Stack II
+# HuertoHogar — Frontend React + Integración Full Stack (DSY1104 EP3)
 
-Plataforma e-commerce para venta de frutas, verduras y productos orgánicos, desarrollada con React, Vite y Bootstrap para la asignatura **Desarrollo Full Stack II (DSY1104)** de Duoc UC.
+Plataforma e-commerce para venta de frutas, verduras y productos orgánicos, desarrollada con **React 19, Vite 8, Axios y Bootstrap 5** e integrada a la API REST Spring Boot (`huertohogar-api`) con JWT y control de roles (`ADMIN`, `VENDEDOR`, `CLIENTE`), para la asignatura **Desarrollo Full Stack II (DSY1104)** de Duoc UC.
 
-## Integrantes - Grupo 8
-- Camilo Pérez
+## Integrantes — Grupo 8
 - Bryan Rodríguez
+- Camilo Pérez
 - Hugo Pinto
 
 ---
 
+## Repositorios del Proyecto
+- **Frontend (este repositorio):** https://github.com/drkFenix/FS2_S04_G8
+- **Backend Spring Boot + MySQL 8.4:** https://github.com/drkFenix/huertohogar-api
+
+---
+
 ## Tecnologías Utilizadas
-- **Frontend:** React 19, Vite, React-Bootstrap, Bootstrap 5, Bootstrap Icons
-- **Enrutamiento:** React Router DOM (Single Page Application)
-- **Testing:** Vitest, @testing-library/react, @testing-library/jest-dom, jsdom
-- **Despliegue:** AWS EC2 (Ubuntu 24.04 LTS en AWS Academy Learner Lab, Node.js 22, PM2)
+- **Frontend:** React 19, Vite 8.3, React Router DOM 7, React-Bootstrap, Bootstrap 5, Bootstrap Icons
+- **Integración API & Seguridad:** Axios (`src/api/httpClient.js`) con inyección automática de `Bearer` JWT y renovación transparente vía `/api/v1/auth/refresh`, rutas protegidas por rol (`ProtectedRoute.jsx`) y persistencia de sesión (`AuthContext.jsx`)
+- **Testing y Calidad:** Vitest 5, `@testing-library/react`, `@testing-library/jest-dom`, `@vitest/coverage-v8`, `oxlint`
+- **Despliegue:** AWS EC2 (Ubuntu 24.04 LTS, Nginx reverse proxy + build estático Vite + backend Spring Boot `systemd`)
 
 ---
 
 ## Estructura del Repositorio
 
-- **`huertohogar-app/`**: Aplicación web en React:
-  - `src/components/`: Componentes reutilizables (`Navbar.jsx`, `Footer.jsx`, `ProductCard.jsx`).
-  - `src/pages/`: Vistas de la tienda (Catálogo, Categorías, Ofertas, Detalle, Carrito, Checkout) y panel de administración (`/admin`).
-  - `src/context/`: Estado global del carrito (`CartContext.jsx`).
-  - `src/data/`: Capa de datos simulada y persistencia en `localStorage` (`db.js`).
-  - `src/__tests__/`: Batería de pruebas unitarias (`evaluacion2.test.jsx`).
+- **`huertohogar-app/`**: Aplicación web React + Vite:
+  - `src/api/httpClient.js`: Cliente Axios centralizado con interceptores JWT y refresh automático.
+  - `src/services/`: Servicios REST por recurso (`authService`, `productService`, `categoryService`, `orderService`, `userService`, `dashboardService`).
+  - `src/context/`: Estado global de autenticación (`AuthContext.jsx`) y carrito (`CartContext.jsx`).
+  - `src/components/`: `Navbar.jsx`, `Footer.jsx`, `ProductCard.jsx`, `ProtectedRoute.jsx`.
+  - `src/pages/`: Tienda pública, carrito, checkout, perfil, vistas de solo lectura `VENDEDOR` (`/vendedor/*`) y panel completo `ADMIN` (`/admin/*`).
+  - `src/__tests__/`: Pruebas unitarias reales (`ProductCard.test.jsx`, `AuthAndRoles.test.jsx`).
   - `public/assets/`: Imágenes de catálogo y recursos estáticos.
-- **`evaluacion-1/`**: Archivos de la primera entrega (HTML5, CSS3, JavaScript vanilla).
-- **`Documentacion/`**: 
-  - `ERS_HuertoHogar_V2.md`: Especificación de Requisitos de Software (V2).
-  - `Documento_Cobertura_Testing.md`: Reporte de pruebas unitarias y cobertura.
-  - `GUIA_DESPLIEGUE_AWS_EC2.md`: Guía técnica de despliegue en AWS EC2 (Markdown).
-  - `GUIA_DESPLIEGUE_AWS_EC2.docx`: Guía técnica de despliegue en AWS EC2 (Word).
+- **`evaluacion-1/`**: Archivos históricos de la primera entrega (HTML5, CSS3 y JavaScript).
 
 ---
 
-## Ejecución en Entorno Local
+## Ejecución Local (con Backend corriendo en `:8080`)
 
-1. Ingresar a la carpeta de la aplicación:
 ```bash
 cd huertohogar-app
-```
-
-2. Instalar dependencias:
-```bash
+cp .env.example .env.local
 npm install
-```
-
-3. Iniciar el servidor de desarrollo:
-```bash
+npm run test
+npm run lint
 npm run dev
 ```
 
-4. Ejecutar pruebas unitarias:
-```bash
-npm run test
-```
-
----
-
-## Despliegue en AWS EC2
-
-Instrucciones para levantar la aplicación en una instancia Ubuntu en AWS Learner Lab:
-
-```bash
-git clone https://github.com/drkFenix/FS2_S04_G8.git
-cd FS2_S04_G8/huertohogar-app
-npm install
-npm install -g pm2
-pm2 start "npm start" --name "huertohogar"
-```
-
-El servicio queda accesible en la IP pública de la instancia:
-```text
-http://<IP_PUBLICA_EC2>:3000
-```
+La tienda queda disponible en http://localhost:5173 (conectada al backend en http://localhost:8080/api/v1).
