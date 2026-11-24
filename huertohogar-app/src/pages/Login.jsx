@@ -1,32 +1,47 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { getErrorMessage } from '../utils/getErrorMessage';
 
 function Login() {
+  const { isAuthenticated, role, login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const destinoPorRol = (rol) => {
+    if (rol === 'ADMIN') return '/admin';
+    if (rol === 'VENDEDOR') return '/vendedor/productos';
+    return location.state?.from && !location.state.from.startsWith('/admin') && !location.state.from.startsWith('/vendedor')
+      ? location.state.from
+      : '/';
+  };
+
+  if (isAuthenticated) {
+    return <Navigate to={destinoPorRol(role)} replace />;
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!correo.trim() || !password.trim()) {
       setError('Por favor ingresa tu correo y contraseña.');
       return;
     }
 
-    if (correo.includes('admin')) {
-      alert('Bienvenido al Panel de Administrador');
-      navigate('/admin');
-    } else {
-      alert(`Sesión iniciada con éxito. Bienvenido ${correo}`);
-      navigate('/');
+    setLoading(true);
+    setError('');
+    try {
+      const session = await login(correo.trim(), password);
+      navigate(destinoPorRol(session.user.rol), { replace: true });
+    } catch (err) {
+      setError(getErrorMessage(err));
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const handleAccesoRapidoAdmin = () => {
-    setCorreo('admin@huertohogar.cl');
-    setPassword('admin1234');
   };
 
   return (
@@ -37,17 +52,23 @@ function Login() {
             <div className="text-center mb-4">
               <img src="/assets/logo.png" alt="Logo HuertoHogar" style={{ height: '60px' }} className="mb-2" />
               <h2 className="fw-bold text-success">Iniciar Sesión</h2>
-              <p className="text-muted small">Accede a tu cuenta de cliente o administración</p>
+              <p className="text-muted small">Autenticación segura con JWT y control por roles</p>
             </div>
 
-            {error && <Alert variant="danger">{error}</Alert>}
+            {error && (
+              <Alert variant="danger" role="alert">
+                {error}
+              </Alert>
+            )}
 
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <Form.Label>Correo Electrónico</Form.Label>
+                <Form.Label htmlFor="login-correo">Correo Electrónico</Form.Label>
                 <Form.Control
+                  id="login-correo"
                   type="email"
-                  placeholder="ejemplo@correo.com"
+                  autoComplete="username"
+                  placeholder="ejemplo@huertohogar.cl"
                   value={correo}
                   onChange={(e) => setCorreo(e.target.value)}
                   required
@@ -55,9 +76,11 @@ function Login() {
               </Form.Group>
 
               <Form.Group className="mb-4">
-                <Form.Label>Contraseña</Form.Label>
+                <Form.Label htmlFor="login-password">Contraseña</Form.Label>
                 <Form.Control
+                  id="login-password"
                   type="password"
+                  autoComplete="current-password"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -65,20 +88,16 @@ function Login() {
                 />
               </Form.Group>
 
-              <Button type="submit" variant="success" size="lg" className="w-100 fw-bold mb-3">
-                Ingresar
+              <Button type="submit" variant="success" size="lg" className="w-100 fw-bold mb-3" disabled={loading}>
+                {loading ? 'Ingresando...' : 'Ingresar'}
               </Button>
             </Form>
 
             <div className="text-center border-top pt-3">
               <small className="text-muted d-block mb-2">¿No tienes cuenta aún?</small>
-              <Link to="/registro" className="btn btn-outline-secondary btn-sm w-100 mb-3">
+              <Link to="/registro" className="btn btn-outline-secondary btn-sm w-100">
                 Registrarse como nuevo cliente
               </Link>
-
-              <Button variant="link" size="sm" className="text-decoration-none text-muted" onClick={handleAccesoRapidoAdmin}>
-                <i className="bi bi-shield-lock me-1"></i> Cargar credenciales de admin (demo)
-              </Button>
             </div>
           </Card>
         </Col>
